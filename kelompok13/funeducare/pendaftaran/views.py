@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import json
 from django.conf import settings
+from django.http import JsonResponse
+from programs.models import Fee
 
 def pendaftaran(request):
     if request.method == 'POST':
@@ -24,7 +26,8 @@ def pendaftaran(request):
                 umur_anak=form.cleaned_data['umur_anak'],
                 jenis_kelamin=form.cleaned_data['jenis_kelamin'],
                 akta_kelahiran=request.FILES['akta_kelahiran'],
-                program=form.cleaned_data['program']
+                program=form.cleaned_data['program'],
+                fee=form.cleaned_data['fee']
             )
             
             # Buat payment link menggunakan Snap
@@ -34,15 +37,13 @@ def pendaftaran(request):
                 pendaftaran.payment_url = snap_response['redirect_url']
                 pendaftaran.save()
                 
-                # Render halaman payment dengan informasi pembayaran
-                program_name = dict(pendaftaran.PROGRAM_CHOICES)[pendaftaran.program]
                 return render(request, 'payment.html', {
                     'payment_url': snap_response['redirect_url'],
-                    'program_name': program_name,
+                    'program_name': pendaftaran.program.name,
+                    'fee_type': pendaftaran.fee.type_program,
                     'amount': pendaftaran.get_price()
                 })
             
-            # Jika gagal membuat payment link
             return render(request, 'payment_error.html', {'error': 'Gagal membuat link pembayaran'})
     else:
         form = BookingForm()
@@ -54,6 +55,11 @@ def syarat(request):
 
 def cara_mendaftar(request):
     return render(request, 'cara_mendaftar.html')
+
+def get_fees(request):
+    program_id = request.GET.get('program_id')
+    fees = Fee.objects.filter(program_id=program_id).values('id', 'type_program', 'amount')
+    return JsonResponse({'fees': list(fees)})
 
 @csrf_exempt
 def payment_notification(request):

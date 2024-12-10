@@ -1,4 +1,5 @@
 from django import forms
+from programs.models import Program, Fee
 
 class BookingForm(forms.Form):
     nama_ortu = forms.CharField(
@@ -87,16 +88,29 @@ class BookingForm(forms.Form):
         ),
         required=True,
     )
-    program = forms.ChoiceField(
+    
+    program = forms.ModelChoiceField(
         label='Program',
-        widget=forms.RadioSelect(),
-        choices=[
-            ('infant', 'Infant Care (0-12 bulan)'),
-            ('toddler', 'Toddler Program (1-2 tahun)'),
-            ('preschool', 'Pre-school Program (3-4 tahun)'),
-            ('prekindergarten', 'Pre-kindergarten (4-5 tahun)'),
-        ]
+        queryset=Program.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'program-select'}),
+        empty_label="Pilih Program"
     )
+    
+    fee = forms.ModelChoiceField(
+        label='Jenis Program',
+        queryset=Fee.objects.none(),
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'fee-select'}),
+        empty_label="Pilih Jenis Program"
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'program' in self.data:
+            try:
+                program_id = int(self.data.get('program'))
+                self.fields['fee'].queryset = Fee.objects.filter(program_id=program_id)
+            except (ValueError, TypeError):
+                pass
     
 def clean_ktp(self):
     ktp = self.cleaned_data.get('ktp')
@@ -123,4 +137,3 @@ def clean_akta_kelahiran(self):
         if ext not in valid_extensions:
             raise forms.ValidationError("Format file tidak didukung. Gunakan JPG, JPEG, PNG, atau PDF.")
     return akta
-    

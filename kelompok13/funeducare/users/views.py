@@ -14,9 +14,8 @@ from .forms import ChildProfileForm
 @login_required
 def user_logout(request):
     logout(request)
-    next_url = request.GET.get('next', '/')  # Jika ada next di URL, arahkan ke halaman tersebut
+    next_url = request.GET.get('next', '/') 
     return redirect(next_url)  
-
 
 
 def signup_view(request):
@@ -88,6 +87,7 @@ def change_password(request):
     return render(request, 'change_password.html', context)
 
 
+
 @login_required
 def update_account(request):
     if request.method == 'POST':
@@ -119,9 +119,9 @@ def update_account(request):
 
             # Validasi nomor telepon
             if request.user.no_telp != no_telp:
-                if no_telp:  # Jika nomor telepon diisi
+                if no_telp:  
                     try:
-                        # Validator untuk nomor telepon
+                      
                         validator = RegexValidator(
                             regex=r'^\+?1?\d{9,12}$',
                             message="Nomor telepon harus terdiri dari 9-12 digit dan hanya angka."
@@ -131,7 +131,7 @@ def update_account(request):
                         changes_made = True
                     except ValidationError as e:
                         messages.error(request, f"Kesalahan pada nomor telepon: {e.message}")
-                        return render(request, 'pengaturan_akun.html', {'form': form})  # Render ulang dengan form dan error
+                        return render(request, 'pengaturan_akun.html', {'form': form})  
 
             if request.user.gender != gender:
                 request.user.gender = gender
@@ -169,6 +169,8 @@ def update_account(request):
 
     return render(request, 'pengaturan_akun.html', {'form': form})
 
+
+
 def profile_view(request, child_id=None):
     form = ChildProfileForm()
     context = {
@@ -177,23 +179,21 @@ def profile_view(request, child_id=None):
 
     return render(request, 'profil_anak.html', context)
 
+
+
 def profile(request, child_id=None):
     children = Child.objects.filter(user=request.user)
     child = None
     form = ChildProfileForm()
     if child_id:
-        # If child_id is provided, find and edit the child
         child = get_object_or_404(Child, id=child_id, user=request.user)
         
         if request.method == 'POST' and 'delete' in request.POST:
-            # Handle delete operation
             child.delete()
-            return redirect('users:profile')  # Redirect back to the profile view
+            return redirect('users:profile')  
 
-        # If editing, load the form with the child's data
         form = ChildProfileForm(request.POST or None, request.FILES or None, instance=child)
 
-    # Handle the creation or updating of a child profile
     if request.method == 'POST' and 'delete' not in request.POST:
         if child:
             form = ChildProfileForm(request.POST, request.FILES, instance=child)
@@ -211,6 +211,7 @@ def profile(request, child_id=None):
         'children': children,  # List of children for the user
         'child': child,  # The current child being edited or deleted
     }
+
 
     return render(request, 'profile_view.html', context)
 def program_aktif(request):

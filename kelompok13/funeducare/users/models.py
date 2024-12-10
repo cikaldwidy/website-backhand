@@ -37,7 +37,7 @@ class CustomUser(AbstractUser):
 
     # Gunakan email sebagai field login utama
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []  # Tidak memerlukan username saat mendaftar
+    REQUIRED_FIELDS = []  
 
     def __str__(self):
         return self.email

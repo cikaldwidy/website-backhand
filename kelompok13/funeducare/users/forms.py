@@ -108,10 +108,6 @@ class UserUpdateForm(forms.Form):
         return no_telp
     
 
-
-# child profile
-# forms.py
-
 class ChildProfileForm(forms.ModelForm):
     class Meta:
         model = Child

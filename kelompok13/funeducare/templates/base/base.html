@@ -171,16 +171,17 @@
               <li>
                 <a href="{% url 'aboutus:aboutus' %}#siapakami">Tentang Kami</a>
               </li>
-              <li><a href="{% url 'programs:programs' %}">Pendaftaran</a></li>
               <li>
-                <a href="{% url 'home:home' %}#testimonialCarousel"
-                  >Testimoni</a
+                <a href="{% url 'programs:programs' %}#service">Layanan Kami</a>
+              </li>
+              <li>
+                <a href="{% url 'programs:programs' %}#upcoming-event"
+                  >Upcoming Events</a
                 >
               </li>
-              <li><a href="{% url 'contactus:contactus' %}#faqq">FAQ</a></li>
               <li>
-                <a href="{% url 'contactus:contactus' %}#konsultasi"
-                  >Konsultasi</a
+                <a href="{% url 'programs:programs' %}#program-lainnya"
+                  >Program Lainnya</a
                 >
               </li>
               <li><a href="{% url 'home:home' %}#fasilitas">Fasilitas</a></li>
@@ -189,34 +190,27 @@
           </div>
           <!-- footer column 2 -->
           <div class="col-md-4">
-            <h4>Paket Kami</h4>
             <ul class="list2">
+              <li><a href="{% url 'programs:programs' %}">Pendaftaran</a></li>
               <li>
-                <a href="{% url 'programs:programs' %}#service">Infant Care</a>
-              </li>
-              <li>
-                <a href="{% url 'programs:programs' %}#service"
-                  >Toddler Program</a
+                <a href="{% url 'home:home' %}#testimonialCarousel"
+                  >Testimoni</a
                 >
               </li>
               <li>
-                <a href="{% url 'programs:programs' %}#service"
-                  >Pre-School Program</a
+                <a href="{% url 'contactus:contactus' %}#faq-list">FAQ</a>
+              </li>
+              <li>
+                <a href="{% url 'contactus:contactus' %}#konsultasi"
+                  >Hubungi Kami</a
                 >
               </li>
               <li>
-                <a href="{% url 'programs:programs' %}#service"
-                  >Pre-Kindergarten</a
-                >
+                <a href="{% url 'pendaftaran:syarat' %}">Syarat & Ketentuan</a>
               </li>
               <li>
-                <a href="{% url 'programs:programs' %}#service"
-                  >Upcoming Events</a
-                >
-              </li>
-              <li>
-                <a href="{% url 'programs:programs' %}#service"
-                  >Program Lainnya</a
+                <a href="{% url 'pendaftaran:cara_mendaftar' %}"
+                  >Cara Mendaftar</a
                 >
               </li>
             </ul>
@@ -225,19 +219,24 @@
           <div class="col-md-4">
             <h4>Kontak Kami</h4>
             <ul class="list4">
-              <li>
-                <i class="bi bi-geo-alt me-2"></i>
-                Jl.Mawar No 123, Jakarta, Indonesia
+              <li class="" style="cursor: pointer">
+                <i class="bi bi-geo-alt me-3"></i>
+                Jl. Mawar, Ruko Silent Hill 2
               </li>
               <br />
-              <li>
-                <i class="bi bi-whatsapp me-2"></i>
+              <li style="cursor: pointer">
+                <i class="bi bi-whatsapp me-3"></i>
                 088221319983
               </li>
               <br />
-              <li>
-                <i class="bi bi-envelope me-2"></i>
-                funeducare@gmail.com
+              <li style="cursor: pointer">
+                <a
+                  href="mailto:funeducare.id@gmail.com"
+                  style="text-decoration: none; color: white"
+                >
+                  <i class="bi bi-envelope me-3"></i>
+                  funeducare.id@gmail.com
+                </a>
               </li>
             </ul>
           </div>
