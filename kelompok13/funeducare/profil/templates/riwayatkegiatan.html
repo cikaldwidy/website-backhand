@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Kegiatan</title>
+    <link rel="stylesheet" href="{% static 'css/bigdata-style.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h3>FunEduCare</h3>
+            </div>
+            <ul class="menu">
+                <li><a href="dashboard.html">Profil Anak</a></li>
+                <li><a href="programaktif.html">Program Aktif</a></li>
+                <li><a href="#">Riwayat Kegiatan</a></li> <!-- Halaman saat ini, tidak perlu tautan -->
+                <li><a href="laporanperkembangan.html">Laporan Perkembangan</a></li>
+                <li><a href="pembayaran.html">Pembayaran</a></li>
+                <li><a href="pengaturanakun.html">Pengaturan Akun</a></li>
+            </ul>
+            <button class="btn-back" onclick="window.location.href='dashboard.html'">Kembali ke halaman utama</button>
+        </aside>
+
+        <main class="content">
+            <h1>Riwayat Kegiatan</h1>
+            <h2>Daftar Kegiatan Anak</h2>
+
+            <div class="activity-list">
+                <div class="activity-card">
+                    <h3>Tummy Time</h3>
+                    <p><strong>Tanggal:</strong> 5 Oktober 2024</p>
+                    <p><strong>Deskripsi:</strong>Latihan memperkuat oto leher dan tangan.</p>
+                </div>
+
+                <div class="activity-card">
+                    <h3>Eksplorasi Alam</h3>
+                    <p><strong>Tanggal:</strong> 20 September 2024</p>
+                    <p><strong>Deskripsi:</strong>Memperkenalkan anak pada lingkungan sekitar.</p>
+                </div>
+
+                <div class="activity-card">
+                    <h3>Bermain Peran</h3>
+                    <p><strong>Tanggal:</strong> 1 Oktober 2024</p>
+                    <p><strong>Deskripsi:</strong>Mengenalkan anak pada konsep ilmiah sederhana.</p>
+                </div>
+
+                <div class="activity-card">
+                    <h3>Kreativitas Seni</h3>
+                    <p><strong>Tanggal:</strong> 5 Oktober 2024</p>
+                    <p><strong>Deskripsi:</strong>Mengenalkan alfabert dan angka serta melukis dan membuat kerajinan tangan.</p>
+                </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

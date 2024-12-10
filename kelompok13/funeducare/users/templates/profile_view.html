@@ -1,0 +1,149 @@
+{% extends 'base/base_profile.html' %} {% load static %} {% block head_title %}
+FunEduCare - Daftar Anak {% endblock head_title %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profilechild-style.css' %}" />
+{% endblock %} {% block body_block %}
+
+<div class="container mt-4">
+  <h2 class="text-center mb-5">Daftar Anak</h2>
+  <a href="{% url 'users:profile' %}" style="cursor:pointer;">Kembali ke profile</a>
+
+  {% if children %}
+  <div class="row">
+    {% for child in children %}
+    <div class="col-12 col-md-6 col-lg-4 mb-4 mt-5">
+      <div
+        class="card h-100 shadow d-flex flex-column align-items-center rounded-5 p-2"
+      >
+        <div class="d-flex align-items-center" style="height: 50px">
+          <img
+            src="{% if child.foto_anak %}{{ child.foto_anak.url }}{% else %}{% static 'images/IMG_6643.png' %}{% endif %}"
+            class="rounded-circle mb-3"
+            alt="Foto"
+            style="height: 200px; width: 200px; object-fit: cover"
+          />
+        </div>
+        <div class="card-body text-start mt-5">
+          <h5 class="card-title text-center">{{ child.nama_anak }}</h5>
+          <div class="card-text d-flex flex-column gap-2">
+            <p><strong>Jenis Kelamin:</strong> {{ child.jenis_kelamin }}</p>
+            <p><strong>Usia:</strong> {{ child.usia }} tahun</p>
+            <p><strong>Program:</strong> {{ child.program }}</p>
+            <p><strong>Nama</strong> <span>{{ child.nama_anak }}</span></p>
+            <strong>Riwayat Kesehatan</strong><span>{{ child.riwayat_penyakit }}</span></p>
+            <p><strong>Catatan Khusus</strong><span>{{ child.keterangan_tambahan }}</span></p>
+          </div>
+        </div>
+        <div class="text-center">
+          <hr
+            class="border border-dark border-1"
+            style="border-style: dashed"
+          />
+          <form method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+              Hapus Profil Anak
+            </button>
+          </form>
+
+          <button class="btn btn-warning" onclick="showAddChildForm()">
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <!-- Display message if no children are registered -->
+  <div class="text-center">
+    <p>Anda belum memiliki anak yang terdaftar.</p>
+  </div>
+  {% endif %}
+  <!-- Form untuk menambah atau mengedit profil anak -->
+  <div id="popup-overlay" class="overlay" onclick="closePopup()"></div>
+  <div id="popup-add-child-form" class="popup-edit-form" style="display: none">
+    <h5>Tambah Profil Anak Baru</h5>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-group mb-3">
+        <label for="nama_anak"
+          >Nama Anak<span class="text-danger">*</span></label
+        >
+        {{ form.nama_anak }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="usia">Usia<span class="text-danger">*</span></label>
+        {{ form.usia }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="jenis_kelamin"
+          >Jenis Kelamin<span class="text-danger">*</span></label
+        >
+        {{ form.jenis_kelamin }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="hobi">Hobi<span class="text-danger">*</span></label>
+        {{ form.hobi }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="program">Program<span class="text-danger">*</span></label>
+        {{ form.program }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="riwayat_penyakit"
+          >Riwayat Penyakit<span class="text-danger">*</span></label
+        >
+        {{ form.riwayat_penyakit }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="keterangan_tambahan"
+          >Keterangan Tambahan<span class="text-danger">*</span></label
+        >
+        {{ form.keterangan_tambahan }}
+      </div>
+
+      <hr
+        class="border border-dark border-1 mt-3"
+        style="border-style: dashed"
+      />
+
+      <h4>Edit Foto Profil Anak</h4>
+      <div class="mt-3 mb-3">
+        <label for="id_foto_anak" class="img">
+          <i class="fa fa-upload"></i> Ubah Gambar
+        </label>
+        {{ form.foto_anak }}
+        <p>Format: PNG/JPG/SVG (Dimensions: 255x255)</p>
+      </div>
+
+      <div class="mb-3">
+        <label for="delete_image" class="img">
+          <i class="fa fa-trash"></i> Hapus Gambar
+        </label>
+        <input
+          class="checkbox"
+          type="checkbox"
+          name="delete_image"
+          id="delete_image"
+        />
+      </div>
+
+      <button class="mb-2" type="button" onclick="cancelAddChild()">
+        Batal
+      </button>
+      <button type="submit">Simpan</button>
+    </form>
+  </div>
+
+  <!-- Popup untuk Detail Anak -->
+
+  <script src="{% static 'js/profilanak.js' %}"></script>
+  {% endblock %}
+</div>

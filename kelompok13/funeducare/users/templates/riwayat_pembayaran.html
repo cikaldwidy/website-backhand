@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% extends 'base/base_profile.html' %} {% load static %} 
+{% block head_title %} funeducare-riwayat pembayaran{% endblock head_title %}{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/transactions.css' %}" />
+{% endblock %} {% block body_block %}
+<!-- Main Content -->
+<div class="container">
+  <!-- Title -->
+  <div class="col-12 col-md-12 mt-4 text-center">
+    <h3>Riwayat Pembayaran</h3>
+  </div>
+
+  <!-- Subtitle -->
+  <div class="col-12 col-md-12 text-start mt-5">
+    <h4>Semua Transaksi</h4>
+  </div>
+
+  <!-- Transactions Table -->
+  <div class="table-responsive mt-3">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tanggal</th>
+          <th scope="col">Deskripsi</th>
+          <th scope="col">Jumlah</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Example Row (Data ini nantinya diisi menggunakan backend) -->
+        {% for transaction in transactions %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ transaction.date }}</td>
+          <td>{{ transaction.description }}</td>
+          <td>{{ transaction.amount|floatformat:2 }}</td>
+          <td>
+            <span
+              class="{% if transaction.status == 'Sukses' %}text-success{% else %}text-danger{% endif %}"
+            >
+              {{ transaction.status }}
+            </span>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center">
+            Tidak ada transaksi ditemukan.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

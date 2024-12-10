@@ -1,0 +1,84 @@
+{% extends 'base/base_profile.html' %} {% load static %} {% block head_title %}
+FunEduCare - Profile Anak {% endblock head_title %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profilechild-style.css' %}" />
+{% endblock %} {% block body_block %}
+
+<div class="container mt-4">
+  <h5>Tambah Profil Anak Baru</h5>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group mb-3">
+      <label for="nama_anak">Nama Anak<span class="text-danger">*</span></label>
+      {{ form.nama_anak }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="usia">Usia<span class="text-danger">*</span></label>
+      {{ form.usia }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="jenis_kelamin"
+        >Jenis Kelamin<span class="text-danger">*</span></label
+      >
+      {{ form.jenis_kelamin }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="hobi">Hobi<span class="text-danger">*</span></label>
+      {{ form.hobi }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="program">Program<span class="text-danger">*</span></label>
+      {{ form.program }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="riwayat_penyakit"
+        >Riwayat Penyakit<span class="text-danger">*</span></label
+      >
+      {{ form.riwayat_penyakit }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="keterangan_tambahan"
+        >Keterangan Tambahan<span class="text-danger">*</span></label
+      >
+      {{ form.keterangan_tambahan }}
+    </div>
+
+    <hr class="border border-dark border-1 mt-3" style="border-style: dashed" />
+
+    <h4>Edit Foto Profil Anak</h4>
+    <div class="mt-3 mb-3">
+      <label for="id_foto_anak" class="img">
+        <i class="fa fa-upload"></i> Ubah Gambar
+      </label>
+      {{ form.foto_anak }}
+      <p>Format: PNG/JPG/SVG (Dimensions: 255x255)</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="delete_image" class="img">
+        <i class="fa fa-trash"></i> Hapus Gambar
+      </label>
+      <input
+        class="checkbox"
+        type="checkbox"
+        name="delete_image"
+        id="delete_image"
+      />
+    </div>
+
+    <button class="mb-2" type="button" onclick="cancelAddChild()">Batal</button>
+    <button type="submit">Simpan</button>
+  </form>
+</div>
+<a href="{% url 'users:profile_view' %}">Lihat daftar Anak Anda</a>
+
+<!-- Popup untuk Detail Anak -->
+
+<script src="{% static 'js/profilanak.js' %}"></script>
+{% endblock %}

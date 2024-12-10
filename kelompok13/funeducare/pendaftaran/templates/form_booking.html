@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Class</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+        integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/booking-style.css' %}" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/booking.js' %}"></script>
+    
+</head>
+
+<body>
+    {% block content %}
+    <div class="container content-1">
+        <img src="{%static 'images/logo2.png' %}" alt="FunEduCare Logo" class="form-logo" />
+        <!-- Form -->
+        
+        <!-- Judul Formulir -->
+        <h3 class="judul">Formulir Pendaftaran</h3>
+        <p class="keterangan">Silahkan isi data dibawah ini dengan baik dan benar</p>
+        <br>
+
+        <form id="bookingForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Nama Orang Tua -->
+            <div class="form-group">
+                {{form_booking.nama_ortu.label_tag}}
+                {{form_booking.nama_ortu}}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                {{form_booking.email.label_tag}}
+                {{form_booking.email}}
+            </div>
+
+            <!-- Nomor WA -->
+            <div class="form-group">
+                {{form_booking.nomor_wa.label_tag}}
+                {{form_booking.nomor_wa}}
+            </div>
+
+            <!-- Alamat -->
+            <div class="form-group">
+                {{form_booking.alamat.label_tag}}
+                {{form_booking.alamat}}
+            </div>
+
+            <div class="form-group">
+                {{form_booking.ktp.label_tag}}
+                {{form_booking.ktp}}
+                <small class="form-text text-muted">
+                    Format yang didukung: JPG, JPEG, PNG, PDF. Maksimal 5MB
+                </small>
+            </div>
+
+            <!-- Nama Anak -->
+            <div class="form-group">
+                {{form_booking.nama_anak.label_tag}}
+                {{form_booking.nama_anak}}
+            </div>
+
+            <!-- Umur Anak -->
+            <div class="form-group"> 
+                {{form_booking.umur_anak.label_tag}}
+                {{form_booking.umur_anak}}
+            </div>
+
+            <div class="form-group">
+                {{form_booking.jenis_kelamin.label_tag}}
+                {% for jenis_kelamin in form_booking.jenis_kelamin %}
+                    <div class="form-group-input">
+                        {{jenis_kelamin.tag}}
+                        <label for="{{jenis_kelamin.id_for_label}}">
+                            {{jenis_kelamin.choice_label}}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{form_booking.akta_kelahiran.label_tag}}
+                {{form_booking.akta_kelahiran}}
+                <small class="form-text text-muted">
+                    Format yang didukung: JPG, JPEG, PNG, PDF. Maksimal 5MB
+                </small>
+            </div>
+
+            <div class="form-group">
+                {{form_booking.program.label_tag}}
+                {% for program in form_booking.program %}
+                    <div class="form-group-input">
+                        {{program.tag}}
+                        <label for="{{jenis_kelamin.id_for_label}}">
+                            {{program.choice_label}}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Kotak centang persetujuan -->
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="termsCheckbox">
+                <label class="form-check-label" for="termsCheckbox">
+                    Saya menyetujui semua <a href="{% url 'pendaftaran:syarat' %}" target="_blank">syarat dan ketentuan</a>.
+                </label>
+            </div>
+
+            <!-- Tombol aksi -->
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" id="cancelButton">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" id="bookingButton" disabled>
+                    Booking Sekarang
+                </button>
+            </div>
+        </form>
+        
+    </div>
+    {% endblock content %}
+</body>
+
+</html>

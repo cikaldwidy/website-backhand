@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pembayaran</title>
+    <link rel="stylesheet" href="{% static 'css/pembayaran-style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <div class="logo">
+          <h3>FunEduCare</h3>
+        </div>
+        <ul class="menu">
+          <li><a href="dashboard.html">Profil Anak</a></li>
+          <li><a href="programaktif.html">Program Aktif</a></li>
+          <li><a href="riwayatkegiatan.html">Riwayat Kegiatan</a></li>
+          <li><a href="laporanperkembangan.html">Laporan Perkembangan</a></li>
+          <li><a href="#">Pembayaran</a></li>
+          <!-- Halaman saat ini -->
+          <li><a href="pengaturanakun.html">Pengaturan Akun</a></li>
+        </ul>
+        <button class="btn-back" onclick="window.location.href='dashboard.html'">
+          Kembali ke halaman utama
+        </button>
+      </aside>
+
+      <main class="content">
+        <h1>Pembayaran</h1>
+        <h2>Tagihan Aktif</h2>
+
+        <div class="billing-cards">
+          <!-- Tagihan 1 -->
+          <div class="billing-card">
+            <h3>Infant Care- Bulan Oktober</h3>
+            <p><strong>Total:</strong> Rp 2.000.000</p>
+            <p><strong>Batas Pembayaran:</strong> 25 Oktober 2024</p>
+            <button>Bayar Sekarang</button>
+          </div>
+
+          <!-- Tagihan 2 -->
+          <div class="billing-card">
+            <h3>Toddler Program - Bulan Oktober</h3>
+            <p><strong>Total:</strong> Rp 1.800.000</p>
+            <p><strong>Batas Pembayaran:</strong> 25 Oktober 2024</p>
+            <button>Bayar Sekarang</button>
+          </div>
+          <!-- Tagihan 3 -->
+          <div class="billing-card">
+            <h3>Pre School- Bulan Oktober</h3>
+            <p><strong>Total:</strong> Rp 1.600.000</p>
+            <p><strong>Batas Pembayaran:</strong> 25 Oktober 2024</p>
+            <button>Bayar Sekarang</button>
+          </div>
+          <!-- Tagihan 4 -->
+          <div class="billing-card">
+            <h3>Pre-kingdergarten - Bulan Oktober</h3>
+            <p><strong>Total:</strong> Rp 1.500.000</p>
+            <p><strong>Batas Pembayaran:</strong> 25 Oktober 2024</p>
+            <button>Bayar Sekarang</button>
+          </div>
+        </div>
+
+        <h2>Riwayat Pembayaran</h2>
+
+        <div class="payment-history">
+          <table>
+            <thead>
+              <tr>
+                <th>Program</th>
+                <th>Tanggal Pembayaran</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Infant Care- Bulan September</td>
+                <td>28 September 2024</td>
+                <td>Rp 2.000.000</td>
+                <td>Lunas</td>
+              </tr>
+              <tr>
+                <td>Toddler Program - Bulan September</td>
+                <td>28September 2024</td>
+                <td>Rp 1.800.000</td>
+                <td>Lunas</td>
+              </tr>
+              <tr>
+                <td>Pre School - Bulan September</td>
+                <td>28 September 2024</td>
+                <td>Rp 1.700.000</td>
+                <td>Lunas</td>
+              </tr>
+              <tr>
+                <td>Pre Pre-kingdergarten - Bulan September</td>
+                <td>28September 2024</td>
+                <td>Rp 1.500.000</td>
+                <td>Lunas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
