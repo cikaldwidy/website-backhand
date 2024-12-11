@@ -171,18 +171,18 @@ def update_account(request):
     return render(request, 'pengaturan_akun.html', {'form': form})
 
 
-
-
 def profile(request):
     if request.method == 'POST':
-        form = ChildProfileForm(request.POST, request.FILES)  # Kirimkan request.FILES
-        if form.is_valid():
+        form = ChildProfileForm(request.POST, request.FILES)  # Mengirimkan request.FILES
+        if form.is_valid():  
             child_profile = form.save(commit=False)
-            child_profile.user = request.user
-            # Pastikan file ada di request.FILES
-            print(request.FILES)  # Debug: Periksa file yang dikirim
-            child_profile.save()  # Simpan ke database
-            return redirect('users:profile_view')
+            child_profile.user = request.user  
+            print(request.FILES)  
+            child_profile.save() 
+            return redirect('users:profile_view') 
+        else:         
+            print(form.errors)  
+            
     else:
         form = ChildProfileForm()
 

@@ -775,7 +775,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding: 25px;
-  background: linear-gradient(to right, var(--main-color), #ee0d62);
+  background-color: #929292;
   border-radius: 10px;
   margin-bottom: 30px;
   -webkit-border-radius: 10px;

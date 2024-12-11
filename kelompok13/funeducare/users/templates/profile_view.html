@@ -1,13 +1,13 @@
 {% extends 'base/base_profile.html' %} {% load static %} {% block head_title %}
-FunEduCare - Daftar Anak {% endblock head_title %} {% block extra_css %}
+FunEduCare - Daftar Anak {% endblock head_title %}{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/profilechild-style.css' %}" />
 {% endblock %} {% block body_block %}
 
 <div class="container mt-4">
-  <h2 class="text-center mb-5">Daftar Anak</h2>
   <a href="{% url 'users:profile' %}" class="btn btn-secondary mb-4"
     >Kembali ke Profile</a
   >
+  <h2 class="text-center mb-5">Daftar Anak</h2>
 
   {% if children %}
   <div class="row">
@@ -23,7 +23,7 @@ FunEduCare - Daftar Anak {% endblock head_title %} {% block extra_css %}
         >
           <img
             src="{% if child.foto_anak %}{{ child.foto_anak.url }}{% else %}{% static 'images/IMG_6643.png' %}{% endif %}"
-            class="rounded-circle mb-3"
+            class="rounded-circle"
             alt="Foto"
             style="height: 180px; width: 180px; object-fit: cover"
           />
@@ -31,8 +31,8 @@ FunEduCare - Daftar Anak {% endblock head_title %} {% block extra_css %}
 
         <!-- Child Details -->
         <div class="card-body text-start">
-          <h5 class="card-title text-center">{{ child.nama_anak }}</h5>
-          <div class="card-text d-flex flex-column gap-2">
+          <h4 class="card-title text-center mb-4">{{ child.nama_anak }}</h4>
+          <div class="card-text d-flex flex-column gap-1">
             <p><strong>Jenis Kelamin:</strong> {{ child.jenis_kelamin }}</p>
             <p><strong>Usia:</strong> {{ child.usia }} tahun</p>
             <p><strong>Program:</strong>{{form_booking.program}}</p>
@@ -54,16 +54,20 @@ FunEduCare - Daftar Anak {% endblock head_title %} {% block extra_css %}
           >
             {% csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">
+              <i
+                class="fa-solid fa-trash"
+                style="color: white; font-size: 17px; padding: 3px"
+              ></i>
               Hapus Profil Anak
             </button>
           </form>
 
-          <button
+          <a
             class="btn btn-warning btn-sm ms-2"
-            onclick="showAddChildForm()"
+            style="font-size: 16px; font-weight: 500"
+            href="{% url 'programs:programs' %}"
+            ><i class="fa-solid fa-magnifying-glass"></i> Cari Program</a
           >
-            Edit
-          </button>
         </div>
       </div>
     </div>
@@ -75,95 +79,6 @@ FunEduCare - Daftar Anak {% endblock head_title %} {% block extra_css %}
     <p>Anda belum memiliki anak yang terdaftar.</p>
   </div>
   {% endif %}
-
-  <!-- Popup for Add/Edit Child Form -->
-  <div id="popup-overlay" class="overlay" onclick="closePopup()"></div>
-  <div id="popup-add-child-form" class="popup-edit-form" style="display: none">
-    <h5>Edit Profile</h5>
-    <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-
-      <div class="form-group mb-3">
-        <label for="nama_anak"
-          >Nama Anak <span class="text-danger">*</span></label
-        >
-        {{ form.nama_anak }}
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="usia">Usia <span class="text-danger">*</span></label>
-        {{ form.usia }}
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="jenis_kelamin"
-          >Jenis Kelamin <span class="text-danger">*</span></label
-        >
-        {{ form.jenis_kelamin }}
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="hobi">Hobi <span class="text-danger">*</span></label>
-        {{ form.hobi }}
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="program">Program <span class="text-danger">*</span></label>
-        {{ form.program }}
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="riwayat_penyakit"
-          >Riwayat Penyakit <span class="text-danger">*</span></label
-        >
-        {{ form.riwayat_penyakit }}
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="keterangan_tambahan"
-          >Keterangan Tambahan <span class="text-danger">*</span></label
-        >
-        {{ form.keterangan_tambahan }}
-      </div>
-
-      <hr
-        class="border border-dark border-1 mt-3"
-        style="border-style: dashed"
-      />
-
-      <h4>Edit Foto Profil Anak</h4>
-      <div class="mt-3 mb-3">
-        <label for="id_foto_anak" class="img">
-          <i class="fa fa-upload"></i> Ubah Gambar
-        </label>
-        {{ form.foto_anak }}
-        <p>Format: PNG/JPG/SVG (Dimensions: 255x255)</p>
-      </div>
-
-      <div class="mb-3">
-        <label for="delete_image" class="img">
-          <i class="fa fa-trash"></i> Hapus Gambar
-        </label>
-        <input
-          class="checkbox"
-          type="checkbox"
-          name="delete_image"
-          id="delete_image"
-        />
-      </div>
-
-      <div class="d-flex justify-content-between">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          onclick="cancelAddChild()"
-        >
-          Batal
-        </button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-      </div>
-    </form>
-  </div>
 
   <script src="{% static 'js/profilanak.js' %}"></script>
 

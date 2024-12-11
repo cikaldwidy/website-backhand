@@ -117,9 +117,27 @@ class ChildProfileForm(forms.ModelForm):
         model = Child
         fields = ['nama_anak', 'usia', 'jenis_kelamin', 'hobi', 'program', 'riwayat_penyakit', 'keterangan_tambahan', 'foto_anak', 'akta_kelahiran', 'ktp']
         widgets = {
-            'keterangan_tambahan': forms.Textarea(attrs={'column': 5}),
-            'riwayat_penyakit': forms.Textarea(attrs={'rows': 3}),
+            'keterangan_tambahan': forms.Textarea(attrs={'class':'form-area'}),  # Menambahkan cols dan rows
+            'riwayat_penyakit': forms.Textarea(attrs={'class':'form-area'}),  # Menambahkan cols dan rows
             'foto_anak': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'akta_kelahiran': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'ktp': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Menambahkan validasi kustom, misalnya memastikan 'nama_anak' tidak kosong
+        if not cleaned_data.get('nama_anak'):
+            self.add_error('nama_anak', 'Nama anak harus diisi.')
+        if not cleaned_data.get('jenis_kelamin'):
+            self.add_error('jenis_kelamin', 'Jenis kelamin harus diisi.')
+        if not cleaned_data.get('riwayat_penyakit'):
+            self.add_error('hobi', 'Riwayat penyakit harus diisi.')
+        if not cleaned_data.get('ktp'):
+            self.add_error('ktp', 'Foto anak harus diisi.')
+        if not cleaned_data.get('akta_kelahiran'):
+            self.add_error('akta_kelahiran', 'Nama anak harus diisi.')
+
+        # Tambahkan validasi untuk field lainnya sesuai kebutuhan
+
+        return cleaned_data

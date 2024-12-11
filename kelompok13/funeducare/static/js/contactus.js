@@ -23,33 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 // Penanganan pengiriman formulir
-const contactForm = document.querySelector(
-  'form[aria-labelledby="contact-form"]'
-);
-
-if (contactForm) {
-  contactForm.addEventListener("submit", function (event) {
-    event.preventDefault(); // Mencegah pengiriman formulir secara default
-
-    // Ambil nilai dari formulir
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const contact = document.getElementById("contact").value;
-    const message = document.getElementById("message").value;
-
-    // Di sini biasanya Anda akan mengirim data ini ke server
-    // Untuk saat ini, kita hanya akan mencetaknya ke konsol
-    console.log("Form submitted:", { name, email, contact, message });
-
-    // Tampilkan pesan sukses (Anda bisa mengganti ini dengan modal atau umpan balik UI lainnya)
-    alert(
-      "Terima kasih! Pesan Anda telah terkirim. Kami akan segera menghubungi Anda."
-    );
-
-    // Reset formulir setelah pengiriman
-    contactForm.reset();
-  });
-}
 
 // Scroll halus untuk tautan jangkar
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

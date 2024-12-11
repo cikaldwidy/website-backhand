@@ -18,7 +18,8 @@
 }
 
 body {
-  background: url("../images/bg_fasilitas2.jpg") no-repeat center center fixed;
+  /* background: url("../images/bg_fasilitas2.jpg") no-repeat center center fixed; */
+  background-color: #011f46;
   background-size: cover;
   color: var(--text-color1);
 }
