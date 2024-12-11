@@ -80,20 +80,15 @@
           </button>
         </div>
         <div class="button-group mb-5 d-flex">
-          {% if  user.is_authenticated %}
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
-          {% endif %}  
-          {% if  not user.is_authenticated %}
-          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
-          {% endif %}  
-          <button
-            class="btn btn-block btn-2 mt-3 w-100"
-            style="margin-top: auto"
-          >
-            Booking Toddler Program
-          </button>        
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
+            <button
+              class="btn btn-block btn-2 mt-3 w-100"
+              style="margin-top: auto"
+            >
+              Booking Infant Care Program
+            </button>
           </a>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -106,11 +101,10 @@ tabindex="-1"
 aria-labelledby="infoModalLabel"
 aria-hidden="true"
 >
-<div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
   <div class="modal-content">
     <div class="modal-header">
       <h3 class="modal-title fw-bold me-2" id="infoModalLabel">
-        <i class="fa-solid fa-baby"></i>
         Informasi Lengkap - Infant Care Program
       </h3>
       <button
@@ -225,7 +219,7 @@ aria-hidden="true"
         {% if program_data.teachers %}
         <div class="row mt-3">
           {% for teacher in program_data.teachers %}
-          <div class="col-md-4 text-center">
+          <div class="col-md-4 text-center mb-5">
             <div class="card shadow p-3 bg-body-tertiary rounded">
               {% if teacher.profile_picture %}
               <img
@@ -254,9 +248,12 @@ aria-hidden="true"
       <button type="button" class="btn btn-3" data-bs-dismiss="modal">
         Tutup
       </button>
-      <button type="button" class="btn btn-2">
+      <a href="https://wa.me/6281234567890?text=Halo%20👶%20Saya%20tertarik%20dengan%20program%20Infant%20Care%20yang%20ditawarkan.%20Bisakah%20saya%20mendapatkan%20informasinya%20lebih%20lanjut?"
+        class="btn btn-2" 
+        target="_blank" 
+        rel="noopener noreferrer">
         <i class="bi bi-whatsapp"></i> Hubungi Kami
-      </button>
+      </a>
     </div>
   </div>
 </div>
@@ -348,22 +345,16 @@ aria-hidden="true"
             Informasi Lebih Lanjut
           </button>
         </div>
-       
         <div class="button-group mb-5 d-flex">
-          {% if  user.is_authenticated %}
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
-          {% endif %}  
-          {% if  not user.is_authenticated %}
-          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
-          {% endif %}  
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
           <button
             class="btn btn-block btn-2 mt-3 w-100"
             style="margin-top: auto"
           >
             Booking Toddler Program
-          </button>        
+          </button>
           </a>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -376,7 +367,7 @@ tabindex="-1"
 aria-labelledby="infoModalLabel"
 aria-hidden="true"
 >
-<div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="infoModalLabel">
@@ -493,7 +484,7 @@ aria-hidden="true"
         {% if program_data.teachers %}
         <div class="row mt-3">
           {% for teacher in program_data.teachers %}
-          <div class="col-md-4 text-center">
+          <div class="col-md-4 text-center mb-5">
             <div class="card shadow p-3 bg-body-tertiary rounded">
               {% if teacher.profile_picture %}
               <img
@@ -522,9 +513,12 @@ aria-hidden="true"
       <button type="button" class="btn btn-3" data-bs-dismiss="modal">
         Tutup
       </button>
-      <button type="button" class="btn btn-2">
+      <a href="https://wa.me/6281234567890?text=Halo%20👧%20Saya%20tertarik%20dengan%20program%20Toddler.%20Mohon%20informasi%20jadwal%20dan%20kegiatannya%20lebih%20lanjut.%20Terima%20kasih!"
+        class="btn btn-2" 
+        target="_blank" 
+        rel="noopener noreferrer">
         <i class="bi bi-whatsapp"></i> Hubungi Kami
-      </button>
+      </a>
     </div>
   </div>
 </div>
@@ -570,7 +564,7 @@ aria-hidden="true"
       </div>
       <!-- Activities -->
       <div class="col-md-6">
-        <h4 class="fw-normal pb-3">Aktivitas Harian Pre-School</h4>
+        <h4 class="fw-normal pb-3">Aktivitas Harian Pre School</h4>
         {% if program_data.activities %}
         <ul class="list-group list-group-flush pb-5 fw-medium fst-italic">
           {% for activity in program_data.activities %}
@@ -618,20 +612,15 @@ aria-hidden="true"
           </button>
         </div>
         <div class="button-group mb-5 d-flex">
-          {% if  user.is_authenticated %}
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
-          {% endif %}  
-          {% if  not user.is_authenticated %}
-          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
-          {% endif %}  
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
           <button
             class="btn btn-block btn-2 mt-3 w-100"
             style="margin-top: auto"
           >
-            Booking Toddler Program
-          </button>        
+            Booking Pre-School Program
+          </button>
           </a>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -644,11 +633,11 @@ tabindex="-1"
 aria-labelledby="infoModalLabel"
 aria-hidden="true"
 >
-<div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="infoModalLabel">
-        Informasi Lengkap - Pre-School Program
+        Informasi Lengkap - Pre School Program
       </h5>
       <button
         type="button"
@@ -762,7 +751,7 @@ aria-hidden="true"
         {% if program_data.teachers %}
         <div class="row mt-3">
           {% for teacher in program_data.teachers %}
-          <div class="col-md-4 text-center">
+          <div class="col-md-4 text-center mb-5">
             <div class="card shadow p-3 bg-body-tertiary rounded">
               {% if teacher.profile_picture %}
               <img
@@ -791,9 +780,12 @@ aria-hidden="true"
       <button type="button" class="btn btn-3" data-bs-dismiss="modal">
         Tutup
       </button>
-      <button type="button" class="btn btn-2">
+      <a href="https://wa.me/6281234567890?text=Halo%20🎒%20Saya%20ingin%20bertanya%20tentang%20program%20Pre-School.%20Bisakah%20saya%20mendapatkan%20informasi%20lengkap%20terkait%20kegiatan%20dan%20biayanya?"  
+        class="btn btn-2" 
+        target="_blank" 
+        rel="noopener noreferrer">
         <i class="bi bi-whatsapp"></i> Hubungi Kami
-      </button>
+      </a>
     </div>
   </div>
 </div>
@@ -838,7 +830,7 @@ aria-hidden="true"
       </div>
       <!-- Activities -->
       <div class="col-md-6">
-        <h4 class="fw-normal pb-3">Aktivitas Harian Pre-Kindergarten</h4>
+        <h4 class="fw-normal pb-3">Aktivitas Harian Pre Kindergarten</h4>
         {% if program_data.activities %}
         <ul class="list-group list-group-flush pb-4 fw-medium fst-italic">
           {% for activity in program_data.activities %}
@@ -886,20 +878,15 @@ aria-hidden="true"
           </button>
         </div>
         <div class="button-group mb-5 d-flex">
-          {% if  user.is_authenticated %}
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
-          {% endif %}  
-          {% if  not user.is_authenticated %}
-          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
-          {% endif %}  
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
           <button
             class="btn btn-block btn-2 mt-3 w-100"
             style="margin-top: auto"
           >
-            Booking Toddler Program
-          </button>        
+          Booking Pre-Kindergarten Program
+          </button>
           </a>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -912,7 +899,7 @@ tabindex="-1"
 aria-labelledby="infoModalLabel"
 aria-hidden="true"
 >
-<div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="infoModalLabel">
@@ -1030,7 +1017,7 @@ aria-hidden="true"
         {% if program_data.teachers %}
         <div class="row mt-3">
           {% for teacher in program_data.teachers %}
-          <div class="col-md-4 text-center">
+          <div class="col-md-4 text-center mb-5">
             <div class="card shadow p-3 bg-body-tertiary rounded">
               {% if teacher.profile_picture %}
               <img
@@ -1059,9 +1046,12 @@ aria-hidden="true"
       <button type="button" class="btn btn-3" data-bs-dismiss="modal">
         Tutup
       </button>
-      <button type="button" class="btn btn-2">
+      <a href="https://wa.me/6281234567890?text=Halo%20🎨%20Saya%20tertarik%20dengan%20program%20Pre-Kindergarten.%20Bisakah%20Anda%20membantu%20saya%20dengan%20informasi%20lebih%20lanjut%20tentang%20kegiatan%20dan%20fasilitasnya?" 
+        class="btn btn-2" 
+        target="_blank" 
+        rel="noopener noreferrer">
         <i class="bi bi-whatsapp"></i> Hubungi Kami
-      </button>
+      </a>
     </div>
   </div>
 </div>
