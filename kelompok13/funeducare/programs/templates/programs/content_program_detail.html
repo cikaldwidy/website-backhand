@@ -80,15 +80,20 @@
           </button>
         </div>
         <div class="button-group mb-5 d-flex">
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
-            <button
-              class="btn btn-block btn-2 mt-3 w-100"
-              style="margin-top: auto"
-            >
-              Booking Infant Care Program
-            </button>
+          {% if  user.is_authenticated %}
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
+          {% endif %}  
+          {% if  not user.is_authenticated %}
+          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
+          {% endif %}  
+          <button
+            class="btn btn-block btn-2 mt-3 w-100"
+            style="margin-top: auto"
+          >
+            Booking Toddler Program
+          </button>        
           </a>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
@@ -343,16 +348,22 @@ aria-hidden="true"
             Informasi Lebih Lanjut
           </button>
         </div>
+       
         <div class="button-group mb-5 d-flex">
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
+          {% if  user.is_authenticated %}
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
+          {% endif %}  
+          {% if  not user.is_authenticated %}
+          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
+          {% endif %}  
           <button
             class="btn btn-block btn-2 mt-3 w-100"
             style="margin-top: auto"
           >
             Booking Toddler Program
-          </button>
+          </button>        
           </a>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
@@ -607,15 +618,20 @@ aria-hidden="true"
           </button>
         </div>
         <div class="button-group mb-5 d-flex">
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
+          {% if  user.is_authenticated %}
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
+          {% endif %}  
+          {% if  not user.is_authenticated %}
+          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
+          {% endif %}  
           <button
             class="btn btn-block btn-2 mt-3 w-100"
             style="margin-top: auto"
           >
-            Booking Pre-School Program
-          </button>
+            Booking Toddler Program
+          </button>        
           </a>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
@@ -870,15 +886,20 @@ aria-hidden="true"
           </button>
         </div>
         <div class="button-group mb-5 d-flex">
-          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">
+          {% if  user.is_authenticated %}
+          <a href="{% url 'pendaftaran:pendaftaran' %}" class="w-100 text-decoration-none">   
+          {% endif %}  
+          {% if  not user.is_authenticated %}
+          <a href="{% url 'users:login' %}" class="w-100 text-decoration-none">
+          {% endif %}  
           <button
             class="btn btn-block btn-2 mt-3 w-100"
             style="margin-top: auto"
           >
-          Booking Pre-Kindergarten Program
-          </button>
+            Booking Toddler Program
+          </button>        
           </a>
-        </div>
+        </div> 
       </div>
     </div>
   </div>

@@ -1,84 +1,108 @@
 {% extends 'base/base_profile.html' %} {% load static %} {% block head_title %}
 FunEduCare - Profile Anak {% endblock head_title %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/profilechild-style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/custom.css' %}" />
 {% endblock %} {% block body_block %}
+<div class="container profile-container mt-4">
+  <h5 class="form-title text-center mb-4">Tambah Profil Anak Baru</h5>
 
-<div class="container mt-4">
-  <h5>Tambah Profil Anak Baru</h5>
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" class="profile-form">
     {% csrf_token %}
 
-    <div class="form-group mb-3">
-      <label for="nama_anak">Nama Anak<span class="text-danger">*</span></label>
-      {{ form.nama_anak }}
+    <!-- Personal Information Section -->
+    <h4 class="form-section-title mb-4">Informasi Pribadi</h4>
+    <div class="row">
+      <div class="col-md-6 form-group mb-3">
+        <label for="nama_anak" class="form-label"
+          >Nama Anak <span class="text-danger">*</span></label
+        >
+        {{ form.nama_anak }}
+      </div>
+      <div class="col-md-6 form-group mb-3">
+        <label for="usia" class="form-label"
+          >Usia <span class="text-danger">*</span></label
+        >
+        {{ form.usia }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 form-group mb-3">
+        <label for="jenis_kelamin" class="form-label"
+          >Jenis Kelamin <span class="text-danger">*</span></label
+        >
+        {{ form.jenis_kelamin }}
+      </div>
+      <div class="col-md-6 form-group mb-3">
+        <label for="hobi" class="form-label"
+          >Hobi <span class="text-danger">*</span></label
+        >
+        {{ form.hobi }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 form-group mb-3">
+        <label for="riwayat_penyakit" class="form-label"
+          >Riwayat Penyakit <span class="text-danger">*</span></label
+        >
+        {{ form.riwayat_penyakit }}
+      </div>
     </div>
 
     <div class="form-group mb-3">
-      <label for="usia">Usia<span class="text-danger">*</span></label>
-      {{ form.usia }}
-    </div>
-
-    <div class="form-group mb-3">
-      <label for="jenis_kelamin"
-        >Jenis Kelamin<span class="text-danger">*</span></label
-      >
-      {{ form.jenis_kelamin }}
-    </div>
-
-    <div class="form-group mb-3">
-      <label for="hobi">Hobi<span class="text-danger">*</span></label>
-      {{ form.hobi }}
-    </div>
-
-    <div class="form-group mb-3">
-      <label for="program">Program<span class="text-danger">*</span></label>
-      {{ form.program }}
-    </div>
-
-    <div class="form-group mb-3">
-      <label for="riwayat_penyakit"
-        >Riwayat Penyakit<span class="text-danger">*</span></label
-      >
-      {{ form.riwayat_penyakit }}
-    </div>
-
-    <div class="form-group mb-3">
-      <label for="keterangan_tambahan"
-        >Keterangan Tambahan<span class="text-danger">*</span></label
+      <label for="keterangan_tambahan" class="form-label"
+        >Keterangan Tambahan <span class="text-danger">*</span></label
       >
       {{ form.keterangan_tambahan }}
     </div>
 
-    <hr class="border border-dark border-1 mt-3" style="border-style: dashed" />
+    <!-- Field untuk upload Akta Kelahiran -->
+    <div class="form-group mb-3">
+      <label for="akta_kelahiran" class="form-label"
+        >Upload Akta Kelahiran Anak <span class="text-danger">*</span></label
+      >
+      {{ form.akta_kelahiran }}
+    </div>
 
-    <h4>Edit Foto Profil Anak</h4>
-    <div class="mt-3 mb-3">
-      <label for="id_foto_anak" class="img">
-        <i class="fa fa-upload"></i> Ubah Gambar
+    <!-- Upload KTP -->
+    <div class="form-group mb-3">
+      <label for="ktp" class="form-label"
+        >Upload KTP <span class="text-danger">*</span></label
+      >
+      {{ form.ktp }}
+    </div>
+
+    <!-- Profile Image Section -->
+    <h4 class="form-section-title mb-4">Edit Foto Profil Anak</h4>
+    <div class="form-group mb-3">
+      <label for="id_foto_anak" class="img-upload">
+        <i class="fa fa-upload"></i> Tambah foto profil
       </label>
       {{ form.foto_anak }}
-      <p>Format: PNG/JPG/SVG (Dimensions: 255x255)</p>
+      <p class="image-instruction text-muted">
+        Format: PNG/JPG/SVG (Dimensions: 255x255)
+      </p>
     </div>
 
-    <div class="mb-3">
-      <label for="delete_image" class="img">
-        <i class="fa fa-trash"></i> Hapus Gambar
-      </label>
-      <input
-        class="checkbox"
-        type="checkbox"
-        name="delete_image"
-        id="delete_image"
-      />
+    <!-- Action Buttons -->
+    <div class="form-action-buttons text-center">
+      <button
+        class="btn btn-secondary btn-cancel"
+        type="button"
+        onclick="cancelAddChild()"
+      >
+        Batal
+      </button>
+      <button class="btn btn-primary btn-submit" type="submit">Simpan</button>
     </div>
-
-    <button class="mb-2" type="button" onclick="cancelAddChild()">Batal</button>
-    <button type="submit">Simpan</button>
   </form>
-</div>
-<a href="{% url 'users:profile_view' %}">Lihat daftar Anak Anda</a>
 
-<!-- Popup untuk Detail Anak -->
+  <div class="text-center mt-3">
+    <a href="{% url 'users:profile_view' %}" class="back-link"
+      >Lihat daftar Anak Anda</a
+    >
+  </div>
+</div>
 
 <script src="{% static 'js/profilanak.js' %}"></script>
 {% endblock %}

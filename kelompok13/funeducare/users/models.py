@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
 from django.conf import settings
+import uuid
+from programs.models import Program
 class CustomUser(AbstractUser):
     # Pilihan untuk jenis kelamin
     GENDER_CHOICES = [
@@ -34,7 +36,7 @@ class CustomUser(AbstractUser):
             )
         ],
     )
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # Gunakan email sebagai field login utama
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  
@@ -53,11 +55,13 @@ class Child(models.Model):
     nama_anak = models.CharField(max_length=100)
     jenis_kelamin = models.CharField(max_length=10, choices=GENDER_CHOICES)
     hobi = models.CharField(max_length=255)
+    ktp = models.FileField(upload_to='uploads/ktp/', null=True, blank=True)
+    akta_kelahiran = models.FileField(upload_to='uploads/akta_kelahiran/', null=True, blank=True)
     riwayat_penyakit = models.TextField()
-    program = models.CharField(max_length=255)
+    program = models.ForeignKey(Program, on_delete=models.SET_NULL, null=True, blank=True) 
     usia = models.IntegerField()
     keterangan_tambahan = models.TextField(null=True, blank=True)
     foto_anak = models.ImageField(upload_to='child_profiles/', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.id} - {self.nama_anak}"
+        return f"{self.nama_anak}"

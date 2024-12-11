@@ -1,92 +1,14 @@
 from django import forms
 from programs.models import Program, Fee
+from users.models import Child
 
 class BookingForm(forms.Form):
-    nama_ortu = forms.CharField(
-        label='Nama Orang Tua',
-        max_length=100,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Isi nama orang tua',
-            }
-        )
-    )
-    email = forms.EmailField(
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Isi dengan email anda',
-            }
-        ),
-        label="Alamat Email"
-    )
-    nomor_wa = forms.CharField(
-        label='Nomor WhatsApp Orang Tua',
-        max_length=15,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Isi nomor whatsapp orang tua',
-            }
-        )
-    )
-    alamat = forms.CharField(
-        label='Alamat Orang Tua',
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Isi alamat rumah dari orang tua meliputi RT, RW, Desa, Kecamatan, Kabupaten',
-            }
-        )
-    )
-    ktp = forms.FileField(
-        label="Upload KTP Orang Tua",
-        widget=forms.ClearableFileInput(
-            attrs={
-                'class': 'form-control',
-                'accept': 'image/*,application/pdf',
-            }
-        ),
-        required=True,
-    )
-    nama_anak = forms.CharField(
-        label='Nama Anak',
-        max_length=100,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Isi nama lengkap anak',
-            }
-        )
-    )
-    umur_anak = forms.CharField(
-        label='Umur Anak',
-        max_length=2,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Isi umur anak',
-            }
-        )
-    )
-    jenis_kelamin = forms.ChoiceField(
-        label='Jenis kelamin',
-        widget=forms.RadioSelect(),
-        choices=[
-            ('L', 'Laki - laki'),
-            ('P', 'Perempuan')
-        ]
-    )
-    akta_kelahiran = forms.FileField(
-        label="Upload Akta Kelahiran Anak",
-        widget=forms.ClearableFileInput(
-            attrs={
-                'class': 'form-control',
-                'accept': 'image/*,application/pdf',
-            }
-        ),
-        required=True,
+    # Field anak, hanya menampilkan anak-anak milik user yang login
+    nama_anak = forms.ModelChoiceField(
+        queryset=Child.objects.all(),  # Awalnya kosong
+        label="Daftar Anak Anda", 
+        empty_label="Pilih Anak",  
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'child-select'})
     )
     
     program = forms.ModelChoiceField(
@@ -98,42 +20,45 @@ class BookingForm(forms.Form):
     
     fee = forms.ModelChoiceField(
         label='Jenis Program',
-        queryset=Fee.objects.none(),
+        queryset=Fee.objects.none(),  # Awalnya kosong
         widget=forms.Select(attrs={'class': 'form-control', 'id': 'fee-select'}),
         empty_label="Pilih Jenis Program"
     )
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Ambil user yang sedang login
         super().__init__(*args, **kwargs)
+
+        # Pastikan pilihan anak hanya untuk user yang login
+        if user:
+            self.fields['nama_anak'].queryset = Child.objects.filter(user=user)  # Filter anak berdasarkan user yang login
+        
+        # Update pilihan fee berdasarkan program yang dipilih
         if 'program' in self.data:
             try:
                 program_id = int(self.data.get('program'))
                 self.fields['fee'].queryset = Fee.objects.filter(program_id=program_id)
             except (ValueError, TypeError):
                 pass
-    
-def clean_ktp(self):
-    ktp = self.cleaned_data.get('ktp')
-    if ktp:
-        # Validasi ukuran file (maksimal 5MB)
-        if ktp.size > 5 * 1024 * 1024:
-            raise forms.ValidationError("Ukuran file terlalu besar. Maksimal 5MB.")
-        # Validasi tipe file
-        valid_extensions = ['jpg', 'jpeg', 'png', 'pdf']
-        ext = ktp.name.split('.')[-1].lower()
-        if ext not in valid_extensions:
-            raise forms.ValidationError("Format file tidak didukung. Gunakan JPG, JPEG, PNG, atau PDF.")
-    return ktp
 
-def clean_akta_kelahiran(self):
-    akta = self.cleaned_data.get('akta_kelahiran')
-    if akta:
-        # Validasi ukuran file (maksimal 5MB)
-        if akta.size > 5 * 1024 * 1024:
-            raise forms.ValidationError("Ukuran file terlalu besar. Maksimal 5MB.")
-        # Validasi tipe file
-        valid_extensions = ['jpg', 'jpeg', 'png', 'pdf']
-        ext = akta.name.split('.')[-1].lower()
-        if ext not in valid_extensions:
-            raise forms.ValidationError("Format file tidak didukung. Gunakan JPG, JPEG, PNG, atau PDF.")
-    return akta
+   
+    def clean_fee(self):
+        fee = self.cleaned_data.get('fee')
+        program = self.cleaned_data.get('program')
+        if fee and program:
+            # Pastikan fee yang dipilih adalah bagian dari program yang dipilih
+            if fee.program != program:
+                raise forms.ValidationError("Jenis program tidak sesuai dengan program yang dipilih.")
+        return fee
+
+    # Validasi secara keseluruhan (opsional, bisa digunakan untuk pemeriksaan tambahan)
+    def clean(self):
+        cleaned_data = super().clean()
+        # Pastikan program dan fee valid
+        program = cleaned_data.get('program')
+        fee = cleaned_data.get('fee')
+        if not program:
+            raise forms.ValidationError("Program harus dipilih.")
+        if not fee:
+            raise forms.ValidationError("Jenis program harus dipilih.")
+        return cleaned_data

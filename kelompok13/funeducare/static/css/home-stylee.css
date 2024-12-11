@@ -771,7 +771,7 @@ body {
 }
 
 /* Gaya dasar untuk form */
-form {
+.testimoni-form {
   max-width: 600px;
   margin: 0 auto;
   padding: 25px;
@@ -785,7 +785,7 @@ form {
 }
 
 /* Gaya label */
-form label {
+.form label {
   font-size: 20px;
   color: var(--text-color1);
   font-weight: 400;

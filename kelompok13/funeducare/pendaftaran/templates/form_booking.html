@@ -1,166 +1,109 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking Class</title>
     <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
-      integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+        integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous" />
     <link rel="stylesheet" href="{% static 'css/booking-style.css' %}" />
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/booking.js' %}"></script>
-  </head>
 
-  <body>
+</head>
+
+<body>
     {% block content %}
     <div class="container content-1">
-      <img
-        src="{% static 'images/logo2.png' %}"
-        alt="FunEduCare Logo"
-        class="form-logo"
-      />
-      <!-- Form -->
+        <img src="{%static 'images/logo2.png' %}" alt="FunEduCare Logo" class="form-logo" />
+        <!-- Form -->
 
-      <!-- Judul Formulir -->
-      <h3 class="judul">Formulir Pendaftaran</h3>
-      <p class="keterangan">
-        Silahkan isi data dibawah ini dengan baik dan benar
-      </p>
-      <br />
+        <!-- Judul Formulir -->
+        <h3 class="judul">Formulir Pendaftaran</h3>
+        <p class="keterangan">Silahkan isi data dibawah ini dengan baik dan benar</p>
+        <br>
 
-      <form id="bookingForm" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <!-- Nama Orang Tua -->
-        <div class="form-group">
-          {{ form_booking.nama_ortu.label_tag }} {{ form_booking.nama_ortu }}
-        </div>
+        <form id="bookingForm" method="POST" enctype="multipart/form-data">
+            <h4 class="mb-2" style="font-weight:600">Detail Pengguna</h3>
+            <p><strong>Nama Pengguna:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Alamat:</strong> {{ user.alamat }}</p>
+            <p class="mb-2"><strong>No. Telepon:</strong> {{ user.no_telp }}</p>
+           
+            {% csrf_token %}
+            <!-- Nama Orang Tua -->
 
-        <!-- Email -->
-        <div class="form-group">
-          {{ form_booking.email.label_tag }} {{ form_booking.email }}
-        </div>
+            <div class="form-group">
+                {{form_booking.nama_anak.label_tag}}
+                {{ form_booking.nama_anak }}
+            </div>
 
-        <!-- Nomor WA -->
-        <div class="form-group">
-          {{ form_booking.nomor_wa.label_tag }} {{ form_booking.nomor_wa }}
-        </div>
+            <div class="form-group">
+                {{form_booking.program.label_tag}}
+                {{form_booking.program}}
+            </div>
 
-        <!-- Alamat -->
-        <div class="form-group">
-          {{ form_booking.alamat.label_tag }} {{ form_booking.alamat }}
-        </div>
+            <div class="form-group">
+                {{form_booking.fee.label_tag}}
+                {{form_booking.fee}}
+            </div>
 
-        <div class="form-group">
-          {{ form_booking.ktp.label_tag }} {{ form_booking.ktp }}
-          <small class="form-text text-muted">
-            Format yang didukung: JPG, JPEG, PNG, PDF. Maksimal 5MB
-          </small>
-        </div>
+            <!-- Kotak centang persetujuan -->
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="termsCheckbox">
+                <label class="form-check-label" for="termsCheckbox">
+                    Saya menyetujui semua <a href="{% url 'pendaftaran:syarat' %}" target="_blank">syarat dan
+                        ketentuan</a>.
+                </label>
+            </div>
 
-        <!-- Nama Anak -->
-        <div class="form-group">
-          {{ form_booking.nama_anak.label_tag }} {{ form_booking.nama_anak }}
-        </div>
+            <!-- Tombol aksi -->
+            <div class="button-group">
+                <a href="{% url 'programs:programs' %}" class="btn btn-secondary">
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-primary" id="bookingButton" disabled>
+                    Booking Sekarang
+                </button>
+            </div>
+        </form>
 
-        <!-- Umur Anak -->
-        <div class="form-group">
-          {{ form_booking.umur_anak.label_tag }} {{ form_booking.umur_anak }}
-        </div>
-
-        <div class="form-group">
-          {{ form_booking.jenis_kelamin.label_tag }}
-           {% for jenis_kelamin in form_booking.jenis_kelamin %}
-          <div class="form-group-input">
-            {{ jenis_kelamin.tag }}
-            <label for="{{ jenis_kelamin.id_for_label }}">
-              {{ jenis_kelamin.choice_label }}
-            </label>
-          </div>
-          {% endfor %}
-        </div>
-
-        <div class="form-group">
-          {{ form_booking.akta_kelahiran.label_tag }} {{
-          form_booking.akta_kelahiran }}
-          <small class="form-text text-muted">
-            Format yang didukung: JPG, JPEG, PNG, PDF. Maksimal 5MB
-          </small>
-        </div>
-
-        <div class="form-group">
-          {{ form_booking.program.label_tag }} {{ form_booking.program }}
-        </div>
-
-        <div class="form-group">
-          {{ form_booking.fee.label_tag }} {{ form_booking.fee }}
-        </div>
-
-        <!-- Kotak centang persetujuan -->
-        <div class="form-check mb-3">
-          <input type="checkbox" class="form-check-input" id="termsCheckbox" />
-          <label class="form-check-label" for="termsCheckbox">
-            Saya menyetujui semua
-            <a href="{% url 'pendaftaran:syarat' %}" target="_blank"
-              >syarat dan ketentuan</a
-            >.
-          </label>
-        </div>
-
-        <!-- Tombol aksi -->
-        <div class="button-group">
-          <button type="button" class="btn btn-secondary" id="cancelButton">
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            id="bookingButton"
-            disabled
-          >
-            Booking Sekarang
-          </button>
-        </div>
-      </form>
     </div>
     {% endblock content %}
     <script>
-      $("#program-select").change(function () {
-        var programId = $(this).val();
-        var feeSelect = $("#fee-select");
+        $("#program-select").change(function () {
+            var programId = $(this).val();
+            var feeSelect = $("#fee-select");
 
-        // Reset fee select
-        feeSelect.empty();
-        feeSelect.append(
-          $("<option></option>").attr("value", "").text("Pilih Jenis Program")
-        );
+            // Reset fee select
+            feeSelect.empty();
+            feeSelect.append($('<option></option>').attr('value', '').text('Pilih Jenis Program'));
 
-        if (programId) {
-          // Fetch related fees using AJAX
-          $.ajax({
-            url: "{% url 'pendaftaran:get_fees' %}",
-            data: {
-              program_id: programId,
-            },
-            success: function (data) {
-              // Add new options
-              data.fees.forEach(function (fee) {
-                feeSelect.append(
-                  $("<option></option>")
-                    .attr("value", fee.id)
-                    .text(fee.type_program + " - Rp " + fee.amount)
-                );
-              });
-            },
-          });
-        }
-      });
+            if (programId) {
+                // Fetch related fees using AJAX
+                $.ajax({
+                    url: "{% url 'pendaftaran:get_fees' %}",
+                    data: {
+                        'program_id': programId
+                    },
+                    success: function (data) {
+                        // Add new options
+                        data.fees.forEach(function (fee) {
+                            feeSelect.append(
+                                $('<option></option>')
+                                    .attr('value', fee.id)
+                                    .text(fee.type_program + ' - Rp ' + fee.amount)
+                            );
+                        });
+                    }
+                });
+            }
+        });
     </script>
-  </body>
+</body>
+
 </html>

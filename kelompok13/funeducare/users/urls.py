@@ -6,14 +6,16 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('logout/', views.user_logout, name='logout'),
     path('login/', views.user_login, name='login'),
-    path('profile/', views.profile_view, name='profile'),
+    path('profile/', views.profile, name='profile'),
     path('change_password/', views.change_password, name='change_password'),
     path('pengaturanakun/', views.update_account, name='pengaturanakun'),
     path('programaktif/', views.program_aktif, name='programaktif'),
     path('riwayatkegiatan/', views.riwayat_kegiatan, name='riwayatkegiatan'),
     path('laporanperkembangan/', views.laporan_perkembangan, name='laporanperkembangan'),
     path('pembayaran/', views.pembayaran, name='pembayaran'),
-    path('profile_view/', views.profile, name='profile_view'),
+    path('profile_view/', views.profile_view, name='profile_view'),
+    path('children/<int:child_id>/delete/', views.delete_child, name='delete_child'),
+
     path(
         'password_reset/',
         auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'),

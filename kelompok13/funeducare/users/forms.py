@@ -108,12 +108,18 @@ class UserUpdateForm(forms.Form):
         return no_telp
     
 
+
+# child profile
+# forms.py
+
 class ChildProfileForm(forms.ModelForm):
     class Meta:
         model = Child
-        fields = ['nama_anak', 'jenis_kelamin', 'hobi', 'program', 'usia', 'keterangan_tambahan', 'foto_anak', 'riwayat_penyakit']
+        fields = ['nama_anak', 'usia', 'jenis_kelamin', 'hobi', 'program', 'riwayat_penyakit', 'keterangan_tambahan', 'foto_anak', 'akta_kelahiran', 'ktp']
         widgets = {
-            'riwayat_penyakit': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
-            'keterangan_tambahan': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+            'keterangan_tambahan': forms.Textarea(attrs={'column': 5}),
+            'riwayat_penyakit': forms.Textarea(attrs={'rows': 3}),
+            'foto_anak': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'akta_kelahiran': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'ktp': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
-

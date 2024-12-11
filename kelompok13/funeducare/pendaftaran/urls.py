@@ -8,4 +8,5 @@ urlpatterns = [
     path('syarat/', views.syarat, name='syarat'),
     path('cara_mendaftar/', views.cara_mendaftar, name='cara_mendaftar'),
     path('payment-notification/', views.payment_notification, name='payment_notification'),
+    path('update-payment-status/<str:order_id>/', views.update_payment_status, name='update-payment-status'),
 ]

@@ -1,4 +1,5 @@
 # views.py
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import BookingForm
@@ -10,69 +11,70 @@ import json
 from django.conf import settings
 from django.http import JsonResponse
 from programs.models import Fee
+from .utils import check_payment_status
+
 
 def pendaftaran(request):
     if request.method == 'POST':
-        form = BookingForm(request.POST, request.FILES)
+        form = BookingForm(request.POST, request.FILES, user=request.user)
+        
         if form.is_valid():
-            # Buat instance pendaftaran
+            selected_child = form.cleaned_data['nama_anak']
+            program = form.cleaned_data['program']
+            fee = form.cleaned_data['fee']
+
             pendaftaran = Pendaftaran.objects.create(
-                nama_ortu=form.cleaned_data['nama_ortu'],
-                email=form.cleaned_data['email'],
-                nomor_wa=form.cleaned_data['nomor_wa'],
-                alamat=form.cleaned_data['alamat'],
-                ktp=request.FILES['ktp'],
-                nama_anak=form.cleaned_data['nama_anak'],
-                umur_anak=form.cleaned_data['umur_anak'],
-                jenis_kelamin=form.cleaned_data['jenis_kelamin'],
-                akta_kelahiran=request.FILES['akta_kelahiran'],
-                program=form.cleaned_data['program'],
-                fee=form.cleaned_data['fee']
+                nama_ortu=request.user,
+                nama_anak=selected_child,
+                program=program,
+                fee=fee,
             )
-            
-            # Buat payment link menggunakan Snap
+
             snap_response = create_payment_link(pendaftaran)
-            
+
             if 'redirect_url' in snap_response:
                 pendaftaran.payment_url = snap_response['redirect_url']
                 pendaftaran.save()
-                
+
                 return render(request, 'payment.html', {
                     'payment_url': snap_response['redirect_url'],
                     'program_name': pendaftaran.program.name,
                     'fee_type': pendaftaran.fee.type_program,
                     'amount': pendaftaran.get_price()
                 })
-            
-            return render(request, 'payment_error.html', {'error': 'Gagal membuat link pembayaran'})
+            else:
+                return render(request, 'payment_error.html', {'error': 'Gagal membuat link pembayaran'})
+
     else:
         form = BookingForm()
 
     return render(request, 'form_booking.html', {'form_booking': form})
 
+
 def syarat(request):
     return render(request, 'syarat.html')
 
+
 def cara_mendaftar(request):
     return render(request, 'cara_mendaftar.html')
+
 
 def get_fees(request):
     program_id = request.GET.get('program_id')
     fees = Fee.objects.filter(program_id=program_id).values('id', 'type_program', 'amount')
     return JsonResponse({'fees': list(fees)})
 
+
 @csrf_exempt
 def payment_notification(request):
     if request.method == 'POST':
         notification = json.loads(request.body)
-        
+
         transaction_status = notification['transaction_status']
         order_id = notification['order_id']
-        
-        # Get pendaftaran ID from order_id
-        pendaftaran_id = order_id.replace('ORDER-', '')
+
         try:
-            pendaftaran = Pendaftaran.objects.get(id=pendaftaran_id)
+            pendaftaran = Pendaftaran.objects.get(order_id=order_id)
             
             if transaction_status == 'settlement':
                 pendaftaran.payment_status = 'paid'
@@ -80,10 +82,19 @@ def payment_notification(request):
                 pendaftaran.payment_status = 'pending'
             elif transaction_status in ['deny', 'cancel', 'expire']:
                 pendaftaran.payment_status = 'failed'
-                
+            
             pendaftaran.save()
             return HttpResponse(status=200)
         except Pendaftaran.DoesNotExist:
             return HttpResponse(status=404)
-            
+
     return HttpResponse(status=400)
+
+
+def update_payment_status(request, order_id):
+    payment_status = check_payment_status(order_id)
+
+    if payment_status:
+        return JsonResponse({'status': 'success', 'payment_status': payment_status})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Order not found or error in fetching payment status'})

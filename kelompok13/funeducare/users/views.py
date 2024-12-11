@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from .models import Child
+from  pendaftaran.forms import BookingForm
 from .forms import ChildProfileForm
 
 
@@ -171,49 +172,37 @@ def update_account(request):
 
 
 
-def profile_view(request, child_id=None):
-    form = ChildProfileForm()
-    context = {
-        'form': form,
-    }
 
-    return render(request, 'profil_anak.html', context)
-
-
-
-def profile(request, child_id=None):
-    children = Child.objects.filter(user=request.user)
-    child = None
-    form = ChildProfileForm()
-    if child_id:
-        child = get_object_or_404(Child, id=child_id, user=request.user)
-        
-        if request.method == 'POST' and 'delete' in request.POST:
-            child.delete()
-            return redirect('users:profile')  
-
-        form = ChildProfileForm(request.POST or None, request.FILES or None, instance=child)
-
-    if request.method == 'POST' and 'delete' not in request.POST:
-        if child:
-            form = ChildProfileForm(request.POST, request.FILES, instance=child)
-        else:
-            form = ChildProfileForm(request.POST, request.FILES)
-
+def profile(request):
+    if request.method == 'POST':
+        form = ChildProfileForm(request.POST, request.FILES)  # Kirimkan request.FILES
         if form.is_valid():
-            updated_child = form.save(commit=False)
-            updated_child.user = request.user
-            updated_child.save()
-            return redirect('users:profile')  # Redirect to the profile page
+            child_profile = form.save(commit=False)
+            child_profile.user = request.user
+            # Pastikan file ada di request.FILES
+            print(request.FILES)  # Debug: Periksa file yang dikirim
+            child_profile.save()  # Simpan ke database
+            return redirect('users:profile_view')
+    else:
+        form = ChildProfileForm()
 
-    context = {
-        'form': form,
-        'children': children,  # List of children for the user
-        'child': child,  # The current child being edited or deleted
+    return render(request, 'profil_anak.html', {'form': form})
+
+
+def profile_view(request, child_id=None):
+    children = Child.objects.filter(user=request.user)     
+    context = {  
+        'children': children,  # List of children for the user   
     }
-
-
     return render(request, 'profile_view.html', context)
+
+def delete_child(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    if request.method == 'POST':
+        child.delete()  
+        return redirect('users:profile_view')
+    return redirect('users:profile_view')
+
 def program_aktif(request):
     return render(request,'program_aktif.html')
 def riwayat_kegiatan(request):

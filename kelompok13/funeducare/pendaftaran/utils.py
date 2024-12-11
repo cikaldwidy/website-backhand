@@ -1,8 +1,9 @@
-import uuid
 from midtransclient import Snap
 from django.conf import settings
 import json
-from decimal import Decimal
+import uuid
+import requests
+from .models import Pendaftaran
 
 def create_payment_link(pendaftaran):
     snap = Snap(
@@ -11,31 +12,26 @@ def create_payment_link(pendaftaran):
         client_key=settings.MIDTRANS_CLIENT_KEY
     )
     
-    # Menggunakan UUID untuk membuat order_id yang unik
-    order_id = f'ORDER-{str(uuid.uuid4())}'  # UUID menjamin keunikan
-    
-    gross_amount = float(pendaftaran.get_price())  # Konversi Decimal ke float
-    
-    # Pastikan gross_amount lebih besar dari 0
-    if gross_amount <= 0:
-        raise ValueError("Gross amount should be greater than 0")
-    
+    # Buat order_id unik dengan UUID
+    order_id = f'ORDER-{str(uuid.uuid4())}'
+
     transaction_details = {
-        'order_id': order_id,  # Gunakan order_id yang unik
-        'gross_amount': gross_amount
+        'order_id': order_id,  
+        'gross_amount': float(pendaftaran.get_price())  
     }
     
     item_details = [{
-        'id': f'PROGRAM-{pendaftaran.program.id}',  # Mengakses id program
-        'price': gross_amount,  # Konversi Decimal ke float
+        'id': f'PROGRAM-{pendaftaran.program.id}',  # Program ID
+        'price': float(pendaftaran.get_price()),  # Konversi Decimal ke float
         'quantity': 1,
-        'name': pendaftaran.program.name  # Mengakses nama program langsung dari model Program
+        'name': pendaftaran.program.name  # Program name
     }]
     
     customer_details = {
-        'first_name': pendaftaran.nama_ortu,
-        'email': pendaftaran.email,
-        'phone': pendaftaran.nomor_wa
+        'first_name': pendaftaran.nama_ortu.first_name,  # Parent's first name
+        'email': pendaftaran.nama_ortu.email,  # Parent's email
+        'child_name': pendaftaran.nama_anak.nama_anak,  # Child's name
+        'program': pendaftaran.program.name,  # Program name
     }
     
     transaction = {
@@ -43,31 +39,41 @@ def create_payment_link(pendaftaran):
         'item_details': item_details,
         'customer_details': customer_details
     }
+
+    snap_response = snap.create_transaction(transaction)
     
-    try:
-        snap_response = snap.create_transaction(transaction)
-        # Update the payment status based on the response from Midtrans
-        pendaftaran.payment_status = 'pending'  # Initial status is 'pending'
-        
-        # Check the transaction status from the response
-        if snap_response['transaction_status'] == 'capture' or snap_response['transaction_status'] == 'settlement':
-            pendaftaran.payment_status = 'success'
-        elif snap_response['transaction_status'] == 'deny' or snap_response['transaction_status'] == 'expire':
-            pendaftaran.payment_status = 'failed'
-        
-        # Save the status to the database
-        pendaftaran.save()
-        
-        return snap_response
-    except Exception as e:
-        print(f"Error while creating payment link: {str(e)}")
-        pendaftaran.payment_status = 'failed'  # In case of error, mark it as failed
-        pendaftaran.save()
-        return None
+    # Update Pendaftaran dengan payment_url dan order_id
+    pendaftaran.payment_url = snap_response['redirect_url']
+    pendaftaran.order_id = order_id  # Menyimpan order_id ke dalam model Pendaftaran
+    pendaftaran.payment_status = 'pending'  # Status awal adalah 'pending'
+    pendaftaran.save()
+
+    return snap_response
 
 
-class DecimalEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Decimal):
-            return float(obj)
-        return super().default(obj)
+def check_payment_status(order_id):
+    # URL endpoint untuk cek status pembayaran
+    url = f"https://api.midtrans.com/v2/{order_id}/status"
+    
+    # Header dengan authorization menggunakan server key
+    headers = {
+        'Authorization': f'Basic {settings.MIDTRANS_SERVER_KEY}',
+        'Content-Type': 'application/json'
+    }
+
+    # Kirim request GET ke Midtrans API untuk mendapatkan status pembayaran
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        payment_status = data.get('transaction_status', None)
+
+        try:
+            pendaftaran = Pendaftaran.objects.get(order_id=order_id)
+            pendaftaran.payment_status = payment_status
+            pendaftaran.save()
+            return payment_status
+        except Pendaftaran.DoesNotExist:
+            return None
+    else:
+        return f"Error: {response.status_code}, {response.text}"

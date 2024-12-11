@@ -1,39 +1,31 @@
-// JavaScript for showing/hiding the modals
-
-function showDetails() {
-  const popupDetail = document.getElementById("popup-detail");
-  const overlay = document.getElementById("popup-overlay");
-
-  popupDetail.classList.add("active");
-  overlay.style.display = "block";
-}
-
-function closePopup() {
-  // Hide the detail modal and overlay
-  const popupDetail = document.getElementById("popup-detail");
-  const overlay = document.getElementById("popup-overlay");
-
-  popupDetail.classList.remove("active");
-  overlay.style.display = "none";
-}
-
+// Function to show the form for adding or editing a child's profile
 function showAddChildForm() {
-  // Show the Add Child Form popup
-  const popupAddChildForm = document.getElementById("popup-add-child-form");
-  const overlay = document.getElementById("popup-overlay");
-
-  popupAddChildForm.style.display = "block";
-  overlay.style.display = "block";
+  // Show the form popup
+  document.getElementById("popup-add-child-form").style.display = "block";
+  // Show the overlay
+  document.getElementById("popup-overlay").style.display = "block";
 }
 
+// Function to close the form when clicking outside the popup (overlay)
+function closePopup() {
+  // Hide the form popup
+  document.getElementById("popup-add-child-form").style.display = "none";
+  // Hide the overlay
+  document.getElementById("popup-overlay").style.display = "none";
+}
+
+// Function to cancel the action and close the form
 function cancelAddChild() {
-  // Hide the Add Child Form popup and overlay
-  const popupAddChildForm = document.getElementById("popup-add-child-form");
-  const overlay = document.getElementById("popup-overlay");
-
-  popupAddChildForm.style.display = "none";
-  overlay.style.display = "none";
+  // Reset the form fields (optional if you want to reset the fields on cancel)
+  document.getElementById("popup-add-child-form").reset();
+  // Hide the form popup and overlay
+  closePopup();
 }
 
-// Close popup if clicking outside the popup area (on overlay)
+// Optional: If you want to reset the form fields on clicking the Cancel button, you can use this function above
+document
+  .querySelector('#popup-add-child-form button[type="button"]')
+  .addEventListener("click", cancelAddChild);
+
+// Adding event listener for closing the popup when clicking the overlay
 document.getElementById("popup-overlay").addEventListener("click", closePopup);
