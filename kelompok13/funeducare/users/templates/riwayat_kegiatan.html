@@ -1,20 +1,68 @@
 <!DOCTYPE html>
-{% extends 'base/base_profile.html' %} 
-{% load static %}
-{% block extra_css %}
-<link rel="stylesheet" href="">
-{% endblock %}
-{% block body_block%}
-        <!-- Main Content -->
-        <div class="col-12 col-md-12 mt-4 text-center">
-          <h1>Riwayat kegiatan</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa
-            dignissimos rem vel dolore, amet, ipsam nemo possimus illum.
-          </p>
-        </div>
-      </div>
-    </div>
-{% endblock %}
-   
+<html lang="id">
+  {% extends 'base/base_profile.html' %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Kegiatan Daycare</title>
+    {% load static %} {% block extra_css %}
+    <link
+      rel="stylesheet"
+      href="{% static 'css/riwayatkegiatan-style.css' %}"
+    />
+    {% endblock %} {% block extra_link %}
+    <link
+      rel="stylesheet"
+      href="{% static 'css/riwayatkegiatan-style.css' %}"
+    />
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <!--Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  {% endblock %} {% block body_block%}
+  <body>
+    <!-- Main Content -->
+    <main class="dashboard">
+      <header class="dashboard-header">
+        <h1>Riwayat Kegiatan Anak</h1>
+        <nav class="user-info">
+          <h5>Selamat datang, {{ user.first_name }}</h5>
+        </nav>
+      </header>
 
+      <section class="activity-filters">
+        <button class="filter-btn active" data-filter="all">
+          Semua Kegiatan
+        </button>
+        <button class="filter-btn" data-filter="makan">Makan</button>
+        <button class="filter-btn" data-filter="bermain">Bermain</button>
+        <button class="filter-btn" data-filter="tidur">Tidur</button>
+        <button class="filter-btn" data-filter="belajar">Belajar</button>
+      </section>
+
+      <section id="activityContainer" class="activity-list">
+        <!-- Aktivitas akan dimuat secara dinamis -->
+      </section>
+    </main>
+
+    <!-- link icon bostrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Jquery-->
+    {% block extra_js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{% static 'js/riwayatkegiatan.js' %}"></script>
+  </body>
+  {% endblock %} {% endblock %}
+</html>

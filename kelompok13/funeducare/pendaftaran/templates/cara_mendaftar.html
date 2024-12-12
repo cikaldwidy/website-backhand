@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
@@ -6,62 +7,7 @@
     <title>
       Tata Cara Pendaftaran - Bright Kids Daycare & Education Center
     </title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f5f5f5;
-      }
-
-      .container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-        color: #2c3e50;
-        text-align: center;
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 10px;
-      }
-
-      h2 {
-        color: #3498db;
-        margin-top: 20px;
-      }
-
-      .section {
-        margin-bottom: 20px;
-      }
-
-      ul {
-        padding-left: 20px;
-      }
-
-      li {
-        margin-bottom: 10px;
-      }
-
-      .highlight {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-left: 4px solid #3498db;
-        margin: 10px 0;
-      }
-
-      .contact-info {
-        text-align: center;
-        margin-top: 30px;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 5px;
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/cara_mendaftar.css' %}" />
   </head>
 
   <body>
@@ -72,6 +18,8 @@
         <h2>A. Tahap Pendaftaran Awal</h2>
         <ul>
           <li>Membuat akun website funeducare dan login ke website</li>
+          <li>Memasukkan data anak pada menu profile</li>
+          <li>Pergi ke menu programs</li>
           <li>Memilih program daycare</li>
           <li>Klik button booking pada bagian program daycare</li>
           <li>Mengisi formulir pendaftaran program daycare</li>

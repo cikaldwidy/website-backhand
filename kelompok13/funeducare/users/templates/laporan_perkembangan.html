@@ -1,20 +1,66 @@
-<!DOCTYPE html>
-{% extends 'base/base_profile.html' %} 
-{% load static %}
-{% block head_title %} funeducare-laporan perkembangan{% endblock head_title %}
-{% block extra_css %}
-<link rel="stylesheet" href="">
-{% endblock %}
-{% block body_block%}
-        <!-- Main Content -->
-        <div class="col-12 col-md-12 mt-4 text-center">
-          <h1>Laporan perkembangan</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa
-            dignissimos rem vel dolore, amet, ipsam nemo possimus illum.
-          </p>
-        </div>
+{% extends 'base/base_profile.html' %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/laporan-style.css' %}" />
+{% endblock %} {% block body_block %}
+<main class="container">
+  <header>
+    <h1 class="header">Laporan Perkembangan Anak</h1>
+  </header>
+
+  <section id="child-selection-card" class="card">
+    <header class="card-header">
+      <svg
+        class="card-header-icon"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+        ></path>
+      </svg>
+      <h2>Pilih Anak</h2>
+    </header>
+    <div id="child-selection" class="child-selection">
+      {% for child_dev in child_developments %}
+      <div class="child-card" data-child-id="{{ child_dev.child.id }}">
+        <img
+          src="{{ child_dev.child.photo.url|default:'/static/default-child-image.png' }}"
+          alt="{{ child_dev.child.name }}"
+        />
+        <span class="child-name">{{ child_dev.child.name }}</span>
+        <span class="child-age">{{ child_dev.child.age }} tahun</span>
       </div>
+      {% empty %}
+      <p>Belum ada data anak</p>
+      {% endfor %}
     </div>
+  </section>
+
+  <section id="development-details" class="card" style="display: none">
+    <header class="card-header">
+      <svg
+        class="card-header-icon"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+        ></path>
+      </svg>
+      <h2 id="development-title">Detail Perkembangan</h2>
+    </header>
+    <div id="development-list" class="development-list"></div>
+  </section>
+</main>
+
+<script src="{% static 'js/laporan.js' %}"></script>
 {% endblock %}
-  

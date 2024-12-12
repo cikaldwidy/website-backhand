@@ -11,7 +11,7 @@ import json
 from django.conf import settings
 from django.http import JsonResponse
 from programs.models import Fee
-from .utils import check_payment_status
+from .utils import handle_payment_notification, check_payment_status
 
 
 def pendaftaran(request):
@@ -68,33 +68,30 @@ def get_fees(request):
 @csrf_exempt
 def payment_notification(request):
     if request.method == 'POST':
-        notification = json.loads(request.body)
-
-        transaction_status = notification['transaction_status']
-        order_id = notification['order_id']
-
         try:
-            pendaftaran = Pendaftaran.objects.get(order_id=order_id)
+            notification = json.loads(request.body)
             
-            if transaction_status == 'settlement':
-                pendaftaran.payment_status = 'paid'
-            elif transaction_status == 'pending':
-                pendaftaran.payment_status = 'pending'
-            elif transaction_status in ['deny', 'cancel', 'expire']:
-                pendaftaran.payment_status = 'failed'
-            
-            pendaftaran.save()
-            return HttpResponse(status=200)
-        except Pendaftaran.DoesNotExist:
-            return HttpResponse(status=404)
-
+            if handle_payment_notification(notification):
+                return HttpResponse(status=200)
+            else:
+                return HttpResponse(status=404)
+        except Exception as e:
+            # Log error
+            return HttpResponse(status=400)
+    
     return HttpResponse(status=400)
 
 
 def update_payment_status(request, order_id):
     payment_status = check_payment_status(order_id)
-
+    
     if payment_status:
-        return JsonResponse({'status': 'success', 'payment_status': payment_status})
+        return JsonResponse({
+            'status': 'success', 
+            'payment_status': payment_status
+        })
     else:
-        return JsonResponse({'status': 'error', 'message': 'Order not found or error in fetching payment status'})
+        return JsonResponse({
+            'status': 'error', 
+            'message': 'Order not found or error in fetching payment status'
+        })

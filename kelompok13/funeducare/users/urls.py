@@ -12,7 +12,7 @@ urlpatterns = [
     path('programaktif/', views.program_aktif, name='programaktif'),
     path('riwayatkegiatan/', views.riwayat_kegiatan, name='riwayatkegiatan'),
     path('laporanperkembangan/', views.laporan_perkembangan, name='laporanperkembangan'),
-    path('pembayaran/', views.pembayaran, name='pembayaran'),
+    path('riwayat-pembayaran/', views.riwayat_pembayaran, name='riwayat_pembayaran'),
     path('profile_view/', views.profile_view, name='profile_view'),
     path('children/<int:child_id>/delete/', views.delete_child, name='delete_child'),
 

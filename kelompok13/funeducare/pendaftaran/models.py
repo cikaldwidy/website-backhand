@@ -15,8 +15,9 @@ class Pendaftaran(models.Model):
     
     PAYMENT_STATUS_CHOICES = [
         ('pending', 'Pending'),
-        ('success', 'Success'),
+        ('paid', 'Paid'),
         ('failed', 'Failed'),
+        ('expired', 'Expired'),
     ]
     
     

@@ -1,0 +1,146 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+.container {
+  width: 100%;
+  max-width: 600px;
+}
+.header {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.card h2 {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 0rem;
+  color: #333;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+}
+.card-header-icon {
+  margin-right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.child-selection {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem;
+  scroll-snap-type: x mandatory;
+}
+.child-card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  scroll-snap-align: start;
+  border: 1px solid transparent;
+}
+.child-card:hover {
+  background-color: #f0f9ff;
+  border-color: #3b82f6;
+}
+.child-card.selected {
+  background-color: #dbeafe;
+  border-color: #3b82f6;
+}
+.child-card img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  object-fit: cover;
+}
+.child-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+.child-age {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+.development-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+.development-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.development-icon {
+  margin-right: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.development-content {
+  flex-grow: 1;
+}
+.development-category {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+.development-description {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+.development-level {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.level-very-good {
+  background-color: #dcfce7;
+  color: #166534;
+}
+.level-expected {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+.no-selection {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 2rem;
+}

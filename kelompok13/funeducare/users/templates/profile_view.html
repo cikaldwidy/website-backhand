@@ -2,12 +2,16 @@
 FunEduCare - Daftar Anak {% endblock head_title %}{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/profilechild-style.css' %}" />
 {% endblock %} {% block body_block %}
-
-<div class="container mt-4">
-  <a href="{% url 'users:profile' %}" class="btn btn-secondary mb-4"
-    >Kembali ke Profile</a
+<div class="container">
+  <h2 class="text-center">Daftar Anak</h2>
+  <a
+    href="{% url 'users:profile' %}"
+    class="btn btn-secondary mb-5 col-3 d-block mx-auto"
   >
-  <h2 class="text-center mb-5">Daftar Anak</h2>
+    <i class="bi bi-person-fill me-2" style="color: white"></i>
+    <!-- Menggunakan ikon dari Bootstrap Icons -->
+    Tambah Biodata Anak
+  </a>
 
   {% if children %}
   <div class="row">
@@ -33,15 +37,9 @@ FunEduCare - Daftar Anak {% endblock head_title %}{% block extra_css %}
         <div class="card-body text-start">
           <h4 class="card-title text-center mb-4">{{ child.nama_anak }}</h4>
           <div class="card-text d-flex flex-column gap-1">
-            <p><strong>Jenis Kelamin:</strong> {{ child.jenis_kelamin }}</p>
-            <p><strong>Usia:</strong> {{ child.usia }} tahun</p>
-            <p><strong>Program:</strong>{{form_booking.program}}</p>
-            <p>
-              <strong>Riwayat Kesehatan:</strong> {{ child.riwayat_penyakit }}
-            </p>
-            <p>
-              <strong>Catatan Khusus:</strong> {{ child.keterangan_tambahan }}
-            </p>
+            <h5><strong>Jenis Kelamin:</strong> {{ child.jenis_kelamin }}</h5>
+            <h5><strong>Usia:</strong> {{ child.usia }} tahun</h5>
+            <h5><strong>Program:</strong>{{form_booking.program}}</h5>
           </div>
         </div>
 
@@ -71,6 +69,7 @@ FunEduCare - Daftar Anak {% endblock head_title %}{% block extra_css %}
         </div>
       </div>
     </div>
+
     {% endfor %}
   </div>
   {% else %}

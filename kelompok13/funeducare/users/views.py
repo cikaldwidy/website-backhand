@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from .models import Child
 from  pendaftaran.forms import BookingForm
 from .forms import ChildProfileForm
-
+from pendaftaran.models import Pendaftaran
 
 @login_required
 def user_logout(request):
@@ -209,5 +209,10 @@ def riwayat_kegiatan(request):
     return render(request,'riwayat_kegiatan.html')
 def laporan_perkembangan(request):
     return render(request,'laporan_perkembangan.html')
-def pembayaran(request):
-    return render(request,'riwayat_pembayaran.html')
+def riwayat_pembayaran(request):
+    # Ambil user yang sedang login 
+    riwayat_pembayaran = Pendaftaran.objects.filter(nama_ortu=request.user).order_by('-created_at')
+    
+    return render(request, 'riwayat_pembayaran.html', {
+        'riwayat_pembayaran': riwayat_pembayaran
+    })
