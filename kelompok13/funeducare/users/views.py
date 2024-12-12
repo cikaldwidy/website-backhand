@@ -189,10 +189,12 @@ def profile(request):
     return render(request, 'profil_anak.html', {'form': form})
 
 
-def profile_view(request, child_id=None):
-    children = Child.objects.filter(user=request.user)     
-    context = {  
-        'children': children,  # List of children for the user   
+def profile_view(request):
+    # Filter children only for the currently logged-in user
+    children = Child.objects.filter(user=request.user)
+    
+    context = {
+        'children': children,  # List of children for the logged-in user
     }
     return render(request, 'profile_view.html', context)
 
@@ -204,7 +206,32 @@ def delete_child(request, child_id):
     return redirect('users:profile_view')
 
 def program_aktif(request):
-    return render(request,'program_aktif.html')
+    active_pendaftarans = Pendaftaran.objects.filter(
+        nama_ortu=request.user,  
+        payment_status='success'
+    )
+  
+    active_programs = []
+    
+    for pendaftaran in active_pendaftarans:
+       
+        active_programs.append({
+            'child_name': pendaftaran.nama_anak.nama_anak, 
+            'program_name': pendaftaran.program.name, 
+            'program_description': pendaftaran.program.description,  
+            'age_range': pendaftaran.program.age_range, 
+            'registration_date': pendaftaran.created_at,
+            'fee_type': pendaftaran.fee.type_program,  
+        })
+    
+    active_programs.sort(key=lambda x: x['registration_date'], reverse=True)
+    
+    context = {
+        'active_programs': active_programs
+    }
+    
+    return render(request, 'program_aktif.html', context)
+
 def riwayat_kegiatan(request):
     return render(request,'riwayat_kegiatan.html')
 def laporan_perkembangan(request):

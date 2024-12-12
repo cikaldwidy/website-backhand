@@ -15,15 +15,11 @@ class Pendaftaran(models.Model):
     
     PAYMENT_STATUS_CHOICES = [
         ('pending', 'Pending'),
-        ('paid', 'Paid'),
         ('failed', 'Failed'),
-        ('expired', 'Expired'),
+        ('success', 'Success'),
     ]
     
-    
-    id = models.AutoField(primary_key=True)
-    created_at = models.DateTimeField(default=timezone.now, editable=False)
-     # Menghubungkan nama_ortu ke model User (CustomUser)
+    # Menghubungkan nama_ortu ke model User (CustomUser)
     nama_ortu = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
@@ -47,6 +43,7 @@ class Pendaftaran(models.Model):
         choices=PAYMENT_STATUS_CHOICES,
         default='pending'  # Default status adalah 'pending'
     )
+    
     payment_url = models.CharField(max_length=255, blank=True, null=True)
     transaction_id = models.CharField(max_length=100, blank=True, null=True)
     
@@ -55,3 +52,22 @@ class Pendaftaran(models.Model):
     
     def get_price(self):
         return self.fee.amount if self.fee else 0
+
+    def update_payment_status(self, status, transaction_id=None, payment_url=None):
+        """Method to update the payment status after transaction response"""
+        self.payment_status = status
+        if transaction_id:
+            self.transaction_id = transaction_id
+        if payment_url:
+            self.payment_url = payment_url
+        self.save()
+
+    # Optional: You can also define other helper methods, such as determining whether the payment is successful
+    def is_payment_successful(self):
+        return self.payment_status == 'success'
+
+    def is_payment_failed(self):
+        return self.payment_status == 'failed'
+
+    def is_payment_pending(self):
+        return self.payment_status == 'pending'

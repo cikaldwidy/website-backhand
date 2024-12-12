@@ -17,24 +17,39 @@ $("#cancelButton").on("click", function () {
   window.location.href = "index.html"; // Pastikan path sesuai
 });
 
-// jQuery untuk menangani pengiriman form
-$("#bookingForm").on("submit", function (event) {
-  // Tidak perlu event.preventDefault(); karena kita ingin mengirimkan form ke server Django
-  let isValid = true;
+$(document).ready(function () {
+  // Fungsi untuk mengecek form terisi
+  function checkFormValidity() {
+    var namaAnak = $("#id_nama_anak").val();
+    var program = $("#id_program").val();
+    var fee = $("#id_fee").val();
+    var termsChecked = $("#termsCheckbox").is(":checked");
 
-  // Validasi field
-  $("#bookingForm input, #bookingForm select").each(function () {
-    if (!$(this).val()) {
-      alert("Mohon isi semua field yang diperlukan!");
-      isValid = false;
-      return false; // Keluar dari loop jika ada field yang kosong
+    if (namaAnak && program && fee && termsChecked) {
+      $("#bookingButton").prop("disabled", false);
+    } else {
+      $("#bookingButton").prop("disabled", true);
+    }
+  }
+
+  // Panggil fungsi saat form berubah
+  $("#id_nama_anak, #id_program, #id_fee, #termsCheckbox").on(
+    "change",
+    function () {
+      checkFormValidity();
+    }
+  );
+
+  // Custom validation saat submit
+  $("#bookingForm").on("submit", function (e) {
+    var namaAnak = $("#id_nama_anak").val();
+    var program = $("#id_program").val();
+    var fee = $("#id_fee").val();
+    var termsChecked = $("#termsCheckbox").is(":checked");
+
+    if (!namaAnak || !program || !fee || !termsChecked) {
+      e.preventDefault();
+      alert("Silakan lengkapi semua field dan centang persetujuan");
     }
   });
-
-  if (!isValid) {
-    event.preventDefault(); // Hentikan pengiriman jika validasi gagal
-  } else {
-    // Biarkan form terkirim ke server Django
-    alert("Form berhasil dikirim!");
-  }
 });

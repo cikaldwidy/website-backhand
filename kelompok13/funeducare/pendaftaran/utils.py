@@ -73,23 +73,22 @@ def check_payment_status(order_id):
             data = response.json()
             transaction_status = data.get('transaction_status')
             
-            # Update status pembayaran
+            # Update status pembayaran sesuai dengan status baru
             if transaction_status == 'settlement':
-                pendaftaran.payment_status = 'paid'
+                pendaftaran.payment_status = 'success'  # Change to success
             elif transaction_status == 'pending':
                 pendaftaran.payment_status = 'pending'
             elif transaction_status in ['deny', 'cancel']:
                 pendaftaran.payment_status = 'failed'
-            elif transaction_status == 'expire':
-                pendaftaran.payment_status = 'expired'
             
+            # Removed 'expire' since 'expired' status is no longer used
             pendaftaran.save()
             return transaction_status
         
         return None
     except Pendaftaran.DoesNotExist:
         return None
-
+    
 def handle_payment_notification(notification):
     try:
         order_id = notification['order_id']
@@ -97,14 +96,13 @@ def handle_payment_notification(notification):
         
         pendaftaran = Pendaftaran.objects.get(order_id=order_id)
         
+        # Update payment status based on transaction status
         if transaction_status == 'settlement':
-            pendaftaran.payment_status = 'paid'
+            pendaftaran.payment_status = 'success'  # Change to success
         elif transaction_status == 'pending':
             pendaftaran.payment_status = 'pending'
         elif transaction_status in ['deny', 'cancel']:
             pendaftaran.payment_status = 'failed'
-        elif transaction_status == 'expire':
-            pendaftaran.payment_status = 'expired'
         
         pendaftaran.save()
         return True

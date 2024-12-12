@@ -22,20 +22,19 @@ def pendaftaran(request):
             selected_child = form.cleaned_data['nama_anak']
             program = form.cleaned_data['program']
             fee = form.cleaned_data['fee']
-
+            
             pendaftaran = Pendaftaran.objects.create(
                 nama_ortu=request.user,
                 nama_anak=selected_child,
                 program=program,
                 fee=fee,
             )
-
+            
             snap_response = create_payment_link(pendaftaran)
-
             if 'redirect_url' in snap_response:
                 pendaftaran.payment_url = snap_response['redirect_url']
                 pendaftaran.save()
-
+                
                 return render(request, 'payment.html', {
                     'payment_url': snap_response['redirect_url'],
                     'program_name': pendaftaran.program.name,
@@ -44,12 +43,11 @@ def pendaftaran(request):
                 })
             else:
                 return render(request, 'payment_error.html', {'error': 'Gagal membuat link pembayaran'})
-
     else:
-        form = BookingForm()
-
+        # Passing user ke form untuk filtering
+        form = BookingForm(user=request.user)
+    
     return render(request, 'form_booking.html', {'form_booking': form})
-
 
 def syarat(request):
     return render(request, 'syarat.html')

@@ -1,102 +1,51 @@
-<!DOCTYPE html>
-{% extends 'base/base_profile.html' %} {% load static %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/programaktif-style.css' %}" />
-{% endblock %} {% block body_block%}
-<!-- Main Content -->
-
+{% extends 'base/base_profile.html' %} {% load static %} {% block body_block %}
 <div class="container mt-5">
-  <h1 class="text-center mb-4">
-    Kegiatan Pembelajaran Aktif: Menjelajahi Dunia Sains dan Kreativitas!
-  </h1>
+  <h2 class="mb-4 text-center">Program Aktif Saya</h2>
 
-  <!-- Program Overview -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h4 class="card-title">Tujuan Program</h4>
-      <p>
-        Program ini dirancang untuk meningkatkan keterlibatan anak-anak dalam
-        pembelajaran melalui kegiatan yang menyenangkan dan interaktif, seperti
-        eksperimen sains, seni, dan permainan tim.
-      </p>
-    </div>
-  </div>
-
-  <!-- Kegiatan Pembelajaran -->
+  {% if active_programs %}
   <div class="row">
-    <!-- Aktivitas 1: Eksperimen Sains -->
-    <div class="col-md-6 mb-4">
-      <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h5>Aktivitas 1: Eksperimen Sains</h5>
-        </div>
+    {% for program in active_programs %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
         <div class="card-body">
-          <p><strong>Judul Kegiatan:</strong> Membuat Gunung Berapi Mini</p>
-          <p>
-            <strong>Deskripsi:</strong> Anak-anak akan membuat miniatur gunung
-            berapi dengan bahan sederhana. Mereka akan belajar tentang reaksi
-            kimia yang terjadi saat gunung berapi meletus.
-          </p>
-          <p>
-            <strong>Materi yang Digunakan:</strong> Soda kue, cuka, pewarna
-            makanan, wadah plastik, sendok.
-          </p>
-        </div>
-      </div>
-    </div>
+          <h5 class="card-title">{{ program.program_name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            {{ program.child_name }}
+          </h6>
 
-    <!-- Aktivitas 2: Seni dan Kreativitas -->
-    <div class="col-md-6 mb-4">
-      <div class="card">
-        <div class="card-header bg-warning text-white">
-          <h5>Aktivitas 2: Seni dan Kreativitas</h5>
-        </div>
-        <div class="card-body">
-          <p><strong>Judul Kegiatan:</strong> Membuat Lukisan Alam</p>
-          <p>
-            <strong>Deskripsi:</strong> Anak-anak akan membuat lukisan alam
-            menggunakan cat air dan kertas gambar besar, dengan tema tertentu
-            seperti pemandangan alam.
+          <p class="card-text">
+            <strong>Deskripsi:</strong> {{
+            program.program_description|truncatewords:15 }}
           </p>
-          <p>
-            <strong>Materi yang Digunakan:</strong> Kertas gambar, cat air,
-            kuas, palet, gelas air.
-          </p>
-        </div>
-      </div>
-    </div>
 
-    <!-- Aktivitas 3: Permainan Tim dan Kolaborasi -->
-    <div class="col-md-6 mb-4">
-      <div class="card">
-        <div class="card-header bg-success text-white">
-          <h5>Aktivitas 3: Permainan Tim dan Kolaborasi</h5>
-        </div>
-        <div class="card-body">
-          <p><strong>Judul Kegiatan:</strong> Teka-Teki dan Tantangan</p>
-          <p>
-            <strong>Deskripsi:</strong> Anak-anak akan dibagi menjadi kelompok
-            dan diberi teka-teki serta tantangan fisik yang membutuhkan
-            kerjasama untuk menyelesaikan tugas tersebut.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Aktivitas 4: Diskusi dan Refleksi -->
-    <div class="col-md-6 mb-4">
-      <div class="card">
-        <div class="card-header bg-info text-white">
-          <h5>Aktivitas 4: Diskusi dan Refleksi</h5>
-        </div>
-        <div class="card-body">
-          <p><strong>Judul Kegiatan:</strong> Apa yang Telah Dipelajari?</p>
-          <p>
-            <strong>Deskripsi:</strong> Diskusi untuk merefleksikan pembelajaran
-            yang didapat, berbagi pengalaman dan hasil karya dengan teman-teman.
-          </p>
+          <ul class="list-unstyled">
+            <li>
+              <i class="fas fa-user-friends"></i>
+              <strong>Rentang Usia:</strong> {{ program.age_range }}
+            </li>
+            <li>
+              <i class="fas fa-calendar-alt"></i>
+              <strong>Tanggal Pendaftaran:</strong>
+              {{ program.registration_date|date:"d M Y" }}
+            </li>
+            <li>
+              <i class="fas fa-tag"></i>
+              <strong>Jenis Program:</strong>
+              {{ program.fee_type }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
+  {% else %}
+  <div class="alert alert-info text-center" role="alert">
+    Anda belum memiliki program aktif saat ini.
+    <a href="{% url 'programs:programs' %}" class="btn btn-primary mt-3"
+      >Daftar Program</a
+    >
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

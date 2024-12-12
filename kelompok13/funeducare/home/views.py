@@ -4,24 +4,27 @@ from .forms import TestimoniForm
 # Create your views here.
 
 def home_view(request):
-    testimonials = Testimoni.objects.all()
+    testimonials = Testimoni.objects.filter(is_approved=True)  # Hanya menampilkan testimoni yang disetujui
     rating_range = range(1, 6)
+    
     if request.method == 'POST':
         form = TestimoniForm(request.POST)
         if form.is_valid():
             testimoni = form.save(commit=False)
-            testimoni.user = request.user  # Otomatis set user yang login
+            testimoni.user = request.user  # Menetapkan user yang sedang login sebagai pengirim testimoni
+            testimoni.is_approved = False  # Menetapkan status sebagai belum disetujui
             testimoni.save()
-            return redirect('home:home')
+            return redirect('home:home')  # Redirect ke halaman yang sama setelah menyimpan testimoni
     else:
         form = TestimoniForm()
+
     context = {
-        'whatsapp_number': '6285536387624', 
-        'testimonials': testimonials,
+        'whatsapp_number': '6285536387624',
+        'testimonials': testimonials,  # Hanya menampilkan testimoni yang disetujui
         'form': form,
         'rating_range': rating_range,
-        
     }
+    
     return render(request, 'home/index.html', context)
 
 
